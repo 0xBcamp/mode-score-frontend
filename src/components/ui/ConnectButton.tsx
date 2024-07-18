@@ -12,7 +12,7 @@ const ConnectButton = () => {
 
   useEffect(() => {
     if (isConnected) {
-      router.push('#') // Redirect to the Dashboard page
+      router.push('/dashboard') // Redirect to the Dashboard page
     }
   }, [isConnected, router])
 
