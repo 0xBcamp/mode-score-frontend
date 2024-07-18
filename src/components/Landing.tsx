@@ -2,7 +2,8 @@
 import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-
+import { JSX, SVGProps } from "react"
+import ConnectButton from "./ui/ConnectButton"
 export function Landing() {
 
   return (
@@ -32,14 +33,7 @@ export function Landing() {
           </Link>
 
         </nav>
-        <Link
-          href="/dashboard"
-          className="ml-4 inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-          prefetch={false}
-        >
-          Connect Wallet
-        </Link>
-
+        <ConnectButton />
       </header>
 
 
@@ -58,13 +52,6 @@ export function Landing() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link
-                    href="#"
-                    className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                    prefetch={false}
-                  >
-                    Connect Wallet
-                  </Link>
                   <Link
                     href="#"
                     className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
@@ -208,7 +195,7 @@ export function Landing() {
   )
 }
 
-function BarChartIcon(props) {
+function BarChartIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -230,7 +217,7 @@ function BarChartIcon(props) {
 }
 
 
-function XIcon(props) {
+function XIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
