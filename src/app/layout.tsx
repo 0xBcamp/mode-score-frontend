@@ -1,8 +1,12 @@
+// Combined Layout Component
+
+// Import necessary modules and styles
 import { Manrope } from 'next/font/google';
 import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import './globals.css';
 
+// Define font styles
 const fontHeading = Manrope({
   subsets: ['latin'],
   display: 'swap',
@@ -17,7 +21,8 @@ const fontBody = Manrope({
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function RootLayout({ children }) {
+// Define the combined layout component
+export default function Layout({ children }) {
   return (
     <html lang="en">
       <body className={cn('antialiased', fontHeading.variable, fontBody.variable, inter.className)}>

@@ -12,6 +12,10 @@ import { JSX, ClassAttributes, HTMLAttributes, SVGProps } from "react"
 export function Dashboard() {
   return (
     <div className="flex min-h-screen w-full bg-muted/40">
+      <aside className="absolute top-0 left-1/2 transform -translate-x-1/2">
+  <h1 className="text-3xl font-bold text-center mt-8 mb-4 text-primary">Mode Score</h1>
+</aside>
+
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <TooltipProvider>
@@ -78,35 +82,13 @@ export function Dashboard() {
           </TooltipProvider>
         </nav>
       </aside>
+      <h1></h1>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 w-full">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <div className="flex items-center gap-2">
             <WalletIcon className="h-6 w-6" />
             <span className="text-lg font-bold">DeFi Dashboard</span>
           </div>
-          {/* <div className="ml-auto flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="overflow-hidden rounded-full">
-                  <img
-                    src="/placeholder.svg"
-                    width={36}
-                    height={36}
-                    alt="Avatar"
-                    className="overflow-hidden rounded-full"
-                  />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div> */}
         </header>
         <main className="flex-1 grid gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Landing } from "@/components/Landing";
-import { Dashboard } from "@/components/Dashboard";
+import { Dashboard } from "@/components/Dashboard"
 
 export default function Home() {
   return (
