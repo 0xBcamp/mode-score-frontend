@@ -1,3 +1,5 @@
+"use client";
+
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu"
@@ -7,7 +9,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 //import { CartesianGrid, XAxis, Line, LineChart } from "recharts"
 import { ChartTooltipContent, ChartTooltip, ChartContainer } from "@/components/ui/chart"
 import { JSX, ClassAttributes, HTMLAttributes, SVGProps } from "react"
-import ConnectButton from "./ui/ConnectButton"
+import ConnectButton from "../../components/ui/ConnectButton"
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAccount } from 'wagmi';
@@ -143,6 +145,7 @@ export function Dashboard() {
                 <p className="text-xs text-muted-foreground">+20.1% from last month</p>
               </CardContent>
             </Card>
+            <Link href="/Score" passHref>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">A Total score</CardTitle>
@@ -153,6 +156,7 @@ export function Dashboard() {
                 <p className="text-xs text-muted-foreground">+2 new assets this month</p>
               </CardContent>
             </Card>
+            </Link>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">Earnings</CardTitle>
