@@ -1,12 +1,13 @@
 "use client";
 
+// import axios from "axios";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
-//import { CartesianGrid, XAxis, Line, LineChart } from "recharts"
+import { CartesianGrid, XAxis, Line, LineChart } from "recharts"
 import { ChartTooltipContent, ChartTooltip, ChartContainer } from "@/components/ui/chart"
 import { JSX, ClassAttributes, HTMLAttributes, SVGProps } from "react"
 import ConnectButton from "../../components/ui/ConnectButton"
@@ -26,6 +27,19 @@ export function Dashboard() {
     }
   }, [isConnected, router]);
 
+
+  // useEffect(() => {
+  //   const fetchEthPrice = async () => {
+  //     try {
+  //       const response = await axios.get('https://');
+  //       setEthPrice(response.data.ethereum.usd);
+  //     } catch (error) {
+  //       console.error('Error fetching the Ethereum price:', error);
+  //     }
+  //   };
+
+  //   fetchEthPrice();
+  // }, []);
 
 
   return (
