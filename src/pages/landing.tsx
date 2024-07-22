@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Landing } from '@/components/Landing'; // Adjust import if needed
+import { Landing } from '../app/Landing/Landing'; // Adjust import if needed
 
 const LandingPage = () => {
   return <Landing />;

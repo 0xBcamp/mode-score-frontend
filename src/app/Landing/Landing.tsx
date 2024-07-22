@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { JSX, SVGProps } from "react"
-import ConnectButton from "./ui/ConnectButton"
+import ConnectButton from "../../components/ui/ConnectButton"
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation' // Use next/navigation instead of next/router
 import { useAccount } from 'wagmi'
