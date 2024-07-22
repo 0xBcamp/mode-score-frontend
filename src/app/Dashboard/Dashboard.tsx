@@ -1,6 +1,7 @@
 "use client";
 
 // import axios from "axios";
+import React, { useEffect, useState } from 'react';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu"
@@ -11,12 +12,36 @@ import { CartesianGrid, XAxis, Line, LineChart } from "recharts"
 import { ChartTooltipContent, ChartTooltip, ChartContainer } from "@/components/ui/chart"
 import { JSX, ClassAttributes, HTMLAttributes, SVGProps } from "react"
 import ConnectButton from "../../components/ui/ConnectButton"
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAccount } from 'wagmi';
+import CovalentForm from "@/components/CovalentForms";
+import { getUserAssets, getUserTransactions } from '../utils/covalentAPI';
+import CreditScoreForm from '@/components/CovalentForms';
+import CreditScoreResult from '@/components/CreditScoreResults';
+
+
+
+const groupTransactionsByDate = (transactions: any[]) => {
+  return transactions.reduce((acc: { [key: string]: any[] }, transaction) => {
+    const date = new Date(transaction.block_signed_at).toLocaleDateString();
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(transaction);
+    return acc;
+  }, {});
+};
+
 
 
 export function Dashboard() {
+
+  const { address } = useAccount(); // Get the connected wallet address from Wagmi
+  const [assets, setAssets] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [result, setResult] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const router = useRouter();
   const { isConnected } = useAccount();
@@ -27,6 +52,38 @@ export function Dashboard() {
     }
   }, [isConnected, router]);
 
+  useEffect(() => {
+    const fetchAssetsAndTransactions = async () => {
+      if (address) {
+        try {
+          setLoading(true);
+          const [assetsData, transactionsData] = await Promise.all([
+            getUserAssets(address),
+            getUserTransactions(address),
+          ]);
+          setAssets(assetsData.data.items);
+          setTransactions(transactionsData.data.items); // Adjust based on the actual response structure
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    // const groupTransactionsByDate = (transactions: any[]) => {
+    //   return transactions.reduce((acc: { [key: string]: any[] }, transaction) => {
+    //     const date = new Date(transaction.block_signed_at).toLocaleDateString();
+    //     if (!acc[date]) {
+    //       acc[date] = [];
+    //     }
+    //     acc[date].push(transaction);
+    //     return acc;
+    //   }, {});
+    // };
+
+    fetchAssetsAndTransactions();
+  }, [address]);
 
   // useEffect(() => {
   //   const fetchEthPrice = async () => {
@@ -41,10 +98,18 @@ export function Dashboard() {
   //   fetchEthPrice();
   // }, []);
 
+  // Placeholder for asset value (you should replace this with the actual value from assets)
+  const groupedTransactions = groupTransactionsByDate(transactions);
+  
+  
+  const totalPortfolioValue = assets.reduce((acc, asset) => acc + asset.quote, 0);
+
 
   return (
     <div className="flex min-h-screen w-full bg-muted/40">
+      
       <aside className="absolute top-0 left-1/2 transform -translate-x-1/2">
+
   
   
 </aside>
@@ -148,39 +213,42 @@ export function Dashboard() {
         </div>
         </header>
         <main className="flex-1 grid gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Total Portfolio Value</CardTitle>
-                <DollarSignIcon className="w-4 h-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">$45,231.89</div>
-                <p className="text-xs text-muted-foreground">+20.1% from last month</p>
-              </CardContent>
-            </Card>
-            <Link href="/Score" passHref>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">A Total score</CardTitle>
-                <PieChartIcon className="w-4 h-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">12</div>
-                <p className="text-xs text-muted-foreground">+2 new assets this month</p>
-              </CardContent>
-            </Card>
-            </Link>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Earnings</CardTitle>
-                <ActivityIcon className="w-4 h-4 text-muted-foreground" />
-              </CardHeader>
-              {/* <CardContent>
-                <LinechartChart className="aspect-[4/3]" />
-              </CardContent> */}
-            </Card>
-          </div>
+        <CovalentForm setResult={setResult} setError={setError}/>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+  <Card className="h-full flex flex-col">
+    <CardHeader className="flex flex-row items-center justify-between pb-2">
+      <CardTitle className="text-sm font-medium">Total Portfolio Value</CardTitle>
+      <DollarSignIcon className="w-4 h-4 text-muted-foreground" />
+    </CardHeader>
+    <CardContent className="flex-grow">
+      <div className="text-2xl font-bold">${totalPortfolioValue}</div>
+      {/* <p className="text-xs text-muted-foreground">+20.1% from last month</p> */}
+    </CardContent>
+  </Card>
+  <Link href="/Score" passHref>
+    <Card className="h-full flex flex-col">
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardTitle className="text-sm font-medium">Idle Score</CardTitle>
+        <PieChartIcon className="w-4 h-4 text-muted-foreground" />
+      </CardHeader>
+      <CardContent className="flex-grow">
+        <div className="text-2xl font-bold">
+          <CreditScoreResult result={result} error={error} />
+        </div>
+      </CardContent>
+    </Card>
+  </Link>
+  <Card className="h-full flex flex-col">
+    <CardHeader className="flex flex-row items-center justify-between pb-2">
+      <CardTitle className="text-sm font-medium">Earnings</CardTitle>
+      <ActivityIcon className="w-4 h-4 text-muted-foreground" />
+    </CardHeader>
+    <CardContent className="flex-grow">
+      <LinechartChart className="aspect-[4/3]" />
+    </CardContent>
+  </Card>
+</div>
+
           <Card>
             <CardHeader className="px-7">
               <CardTitle>Asset Breakdown</CardTitle>
@@ -259,6 +327,7 @@ export function Dashboard() {
               <CardDescription>Your latest DeFi transactions.</CardDescription>
             </CardHeader>
             <CardContent>
+            {Object.keys(groupedTransactions).map((date) => (
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -266,68 +335,24 @@ export function Dashboard() {
                     <TableHead>Type</TableHead>
                     <TableHead>Asset</TableHead>
                     <TableHead>Amount</TableHead>
-                    <TableHead>Value</TableHead>
+                    {/* <TableHead>Value</TableHead> */}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
+                {groupedTransactions[date].map((transaction) => (
                   <TableRow>
-                    <TableCell>2023-05-15</TableCell>
+                    <TableCell>{new Date(transaction.block_signed_at).toLocaleString()}</TableCell>
                     <TableCell>Deposit</TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-2">
-                        <div className="rounded-full w-6 h-6 bg-[#55efc4] flex items-center justify-center text-sm font-medium">
-                          BTC
-                        </div>
-                        <span className="font-medium">Bitcoin</span>
-                      </div>
+                      ETH
                     </TableCell>
-                    <TableCell>0.2345</TableCell>
-                    <TableCell>$7,000.00</TableCell>
+                    <TableCell>{transaction.value / 10 ** 18} </TableCell>
+                    {/* <TableCell>{transaction.value}</TableCell> */}
                   </TableRow>
-                  <TableRow>
-                    <TableCell>2023-05-12</TableCell>
-                    <TableCell>Withdrawal</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <div className="rounded-full w-6 h-6 bg-[#00b894] flex items-center justify-center text-sm font-medium">
-                          ETH
-                        </div>
-                        <span className="font-medium">Ethereum</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>0.5678</TableCell>
-                    <TableCell>$1,800.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>2023-05-10</TableCell>
-                    <TableCell>Staking</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <div className="rounded-full w-6 h-6 bg-[#ffeaa7] flex items-center justify-center text-sm font-medium">
-                          USDC
-                        </div>
-                        <span className="font-medium">USD Coin</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>1,000.00</TableCell>
-                    <TableCell>$1,000.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>2023-05-08</TableCell>
-                    <TableCell>Harvest</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <div className="rounded-full w-6 h-6 bg-[#ff7979] flex items-center justify-center text-sm font-medium">
-                          LINK
-                        </div>
-                        <span className="font-medium">Chainlink</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>5.0000</TableCell>
-                    <TableCell>$750.00</TableCell>
-                  </TableRow>
+                  ))}  
                 </TableBody>
               </Table>
+              ))}
             </CardContent>
           </Card>
         </main>

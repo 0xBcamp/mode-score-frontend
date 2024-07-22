@@ -137,14 +137,14 @@ export function Score() {
             <div className="text-yellow-300 bg-background rounded-lg text-4xl p-6 flex flex-col items-center justify-center gap-4 font-bold">
             IDLE SCORE
             </div>
-            <div className="text-yellow-300 text-4xl font-bold">85</div>
+            <div className="text-yellow-300 text-4xl font-bold">870</div>
             <div className=" font-medium">Great Job! But Financial Efficeincy can be increased!</div>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
             <div className="bg-background rounded-lg border p-6 flex flex-col gap-2">
             <div className="text-lg font-medium">Mode Network</div>
             <div className="flex items-center justify-between">
-                <div className="text-3xl font-bold">92</div>
+                <div className="text-3xl font-bold">900</div>
                 <div className="text-sm text-muted-foreground">High reputation and authority</div>
             </div>
             <Button variant="outline" size="sm" onClick={() => openModal('mode')}>
@@ -154,7 +154,7 @@ export function Score() {
             <div className="bg-background rounded-lg border p-6 flex flex-col gap-2">
             <div className="text-lg font-medium">Ethereum Network</div>
             <div className="flex items-center justify-between">
-                <div className="text-3xl font-bold">78</div>
+                <div className="text-3xl font-bold">825</div>
                 <div className="text-sm text-muted-foreground">Solid financial standing</div>
             </div>
             <Button variant="outline" size="sm" onClick={() => openModal('ethereum')}>
@@ -164,7 +164,7 @@ export function Score() {
             <div className="bg-background rounded-lg border p-6 flex flex-col gap-2">
             <div className="text-lg font-medium">Polygon Network</div>
             <div className="flex items-center justify-between">
-                <div className="text-3xl font-bold">85</div>
+                <div className="text-3xl font-bold">850</div>
                 <div className="text-sm text-muted-foreground">Consistent high-volume traffic</div>
             </div>
             <Button variant="outline" size="sm"onClick={() => openModal('polygon')}>
@@ -174,7 +174,7 @@ export function Score() {
             <div className="bg-background rounded-lg border p-6 flex flex-col gap-2">
             <div className="text-lg font-medium">Solana Network</div>
             <div className="flex items-center justify-between">
-                <div className="text-3xl font-bold">81</div>
+                <div className="text-3xl font-bold">810</div>
                 <div className="text-sm text-muted-foreground">Resilient and adaptable</div>
             </div>
             <Button variant="outline" size="sm" onClick={() => openModal('solana')}>
