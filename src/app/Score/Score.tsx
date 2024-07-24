@@ -142,7 +142,7 @@ export function Score() {
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
             <div className="bg-background rounded-lg border p-6 flex flex-col gap-2">
-            <div className="text-lg font-medium">Mode Network</div>
+            <div className="text-lg font-medium">Credibility</div>
             <div className="flex items-center justify-between">
                 <div className="text-3xl font-bold">900</div>
                 <div className="text-sm text-muted-foreground">High reputation and authority</div>
@@ -152,7 +152,7 @@ export function Score() {
             </Button>
             </div>
             <div className="bg-background rounded-lg border p-6 flex flex-col gap-2">
-            <div className="text-lg font-medium">Ethereum Network</div>
+            <div className="text-lg font-medium">Wealth</div>
             <div className="flex items-center justify-between">
                 <div className="text-3xl font-bold">825</div>
                 <div className="text-sm text-muted-foreground">Solid financial standing</div>
@@ -162,7 +162,7 @@ export function Score() {
             </Button>
             </div>
             <div className="bg-background rounded-lg border p-6 flex flex-col gap-2">
-            <div className="text-lg font-medium">Polygon Network</div>
+            <div className="text-lg font-medium">Traffic</div>
             <div className="flex items-center justify-between">
                 <div className="text-3xl font-bold">850</div>
                 <div className="text-sm text-muted-foreground">Consistent high-volume traffic</div>
@@ -172,7 +172,7 @@ export function Score() {
             </Button>
             </div>
             <div className="bg-background rounded-lg border p-6 flex flex-col gap-2">
-            <div className="text-lg font-medium">Solana Network</div>
+            <div className="text-lg font-medium">Stamina</div>
             <div className="flex items-center justify-between">
                 <div className="text-3xl font-bold">810</div>
                 <div className="text-sm text-muted-foreground">Resilient and adaptable</div>
