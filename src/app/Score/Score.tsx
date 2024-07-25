@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 "use client";
 
 import Link from "next/link"
@@ -239,4 +237,3 @@ export function Score() {
 }
 
 export default Score
->>>>>>> Skyler
