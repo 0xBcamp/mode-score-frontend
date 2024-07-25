@@ -4,9 +4,9 @@ interface CovalentItem {
   eth_address: string;
 }
 
-const CHAIN_ID = 'your_chain_id';
-const COVALENT_KEY = 'your_covalent_key';
-const COINMARKETCAP_KEY = 'your_coinmarketcap_key';
+const CHAIN_ID = '1';
+const COVALENT_KEY = 'cqt_rQT34QB4J7VdBfg3Kv8RjVT9H3gP';
+const COINMARKETCAP_KEY = '4facdf20-ac84-460e-8992-0f957d602234';
 
 export const getCreditScore = async (data: CovalentItem) => {
   try {
@@ -15,7 +15,13 @@ export const getCreditScore = async (data: CovalentItem) => {
       eth_address: data.eth_address,
       covalent_key: COVALENT_KEY,
       coinmarketcap_key: COINMARKETCAP_KEY,
+    },{
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
     });
+
     return response.data;
   } catch (error) {
     console.error('Error fetching credit score:', error);

@@ -1,7 +1,10 @@
 import React from 'react';
 
 interface CreditScoreResultProps {
-  result: any;
+  result: {
+    score: number;
+    message: string;
+  } | null;
   error: string | null;
 }
 
@@ -10,8 +13,8 @@ const CreditScoreResult: React.FC<CreditScoreResultProps> = ({ result, error }) 
     <div>
       {result && (
         <div>
-          <h3>Credit Score Result</h3>
-          <pre>{JSON.stringify(result, null, 2)}</pre>
+          <p className='text-4xl font-bold pb-5 pt-5 flex-grow flex items-center justify-center'>{result.score}</p>
+          {/* <p className='text-sm font-small flex-grow flex items-center justify-center'>{result.message}</p> */}
         </div>
       )}
 

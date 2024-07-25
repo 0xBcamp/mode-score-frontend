@@ -2,6 +2,7 @@
 
 // import axios from "axios";
 import React, { useEffect, useState } from 'react';
+// import { useRouter } from 'next/router';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu"
@@ -43,14 +44,14 @@ export function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const router = useRouter();
+  // const router = useRouter();
   const { isConnected } = useAccount();
 
-  useEffect(() => {
-    if (!isConnected) {
-      router.push('landing');
-    }
-  }, [isConnected, router]);
+  // useEffect(() => {
+  //   if (!isConnected) {
+  //     router.push('landing');
+  //   }
+  // }, [isConnected, router]);
 
   useEffect(() => {
     const fetchAssetsAndTransactions = async () => {
@@ -84,6 +85,14 @@ export function Dashboard() {
 
     fetchAssetsAndTransactions();
   }, [address]);
+
+
+  const handleScoreClick = () => {
+    router.push({
+      pathname: '/Score',
+      query: { data: JSON.stringify(result) }, // Pass the score data as a query parameter
+    });
+  };
 
   // useEffect(() => {
   //   const fetchEthPrice = async () => {
@@ -225,15 +234,16 @@ export function Dashboard() {
       {/* <p className="text-xs text-muted-foreground">+20.1% from last month</p> */}
     </CardContent>
   </Card>
-  <Link href="/Score" passHref>
+  <Link href="/Score" passHref onClick={handleScoreClick}>
     <Card className="h-full flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-sm font-medium">Idle Score</CardTitle>
         <PieChartIcon className="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="flex-grow">
-        <div className="text-2xl font-bold">
+        <div >
           <CreditScoreResult result={result} error={error} />
+          <p>Congratulations you are on your way to Finacial Efficiency click to learn here to learn more</p>
         </div>
       </CardContent>
     </Card>
