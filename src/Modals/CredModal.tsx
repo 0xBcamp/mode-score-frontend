@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card"
-import { EclipseIcon } from "lucide-react"
+
 
 interface CredModalProps {
   data: any;
