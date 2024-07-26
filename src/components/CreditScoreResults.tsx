@@ -1,28 +1,35 @@
 import React from 'react';
+import { Circles } from 'react-loader-spinner';
 
 interface CreditScoreResultProps {
   result: {
     score: number;
-    message: string;
   } | null;
   error: string | null;
+  loading: boolean;
 }
 
-const CreditScoreResult: React.FC<CreditScoreResultProps> = ({ result, error }) => {
+const CreditScoreResult: React.FC<CreditScoreResultProps> = ({ result, error, loading }) => {
   return (
     <div>
-      {result && (
-        <div>
-          <p className='text-4xl font-bold pb-5 pt-5 flex-grow flex items-center justify-center'>{result.score}</p>
-          {/* <p className='text-sm font-small flex-grow flex items-center justify-center'>{result.message}</p> */}
+      {loading ? (
+        <div className="flex flex-col justify-center items-center h-full">
+          <Circles color="yellow" height={80} width={80} />
+          <p className="mt-4">Patience please, calculations are in progress</p>
         </div>
-      )}
-
-      {error && (
+      ) : result ? (
+        <div>
+          <p className="text-4xl text-yellow-500 font-bold pb-5 pt-5 flex-grow flex items-center justify-center">
+            {result.score}
+          </p>
+        </div>
+      ) : error ? (
         <div>
           <h3>Error</h3>
           <p>{error}</p>
         </div>
+      ) : (
+        <p className="text-4xl font-bold pb-5 pt-5 flex-grow flex items-center justify-center">Find Out Your Score Here!</p>
       )}
     </div>
   );

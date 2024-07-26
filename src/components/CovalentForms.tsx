@@ -4,14 +4,16 @@ import { getCreditScore } from '../services/covalentServices';
 interface CreditScoreFormProps {
   setResult: React.Dispatch<React.SetStateAction<any>>;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>; // Add loading state setter
 }
 
-const CreditScoreForm: React.FC<CreditScoreFormProps> = ({ setResult, setError }) => {
+const CreditScoreForm: React.FC<CreditScoreFormProps> = ({ setResult, setError, setLoading }) => {
   const [ethAddress, setEthAddress] = useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError(null);
+    setLoading(true); // Set loading to true when starting the request
 
     const data = {
       eth_address: ethAddress,
@@ -22,6 +24,8 @@ const CreditScoreForm: React.FC<CreditScoreFormProps> = ({ setResult, setError }
       setResult(response);
     } catch (error) {
       setError('Failed to fetch credit score.');
+    } finally {
+      setLoading(false); // Set loading to false when request completes
     }
   };
 
