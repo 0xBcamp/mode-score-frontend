@@ -19,6 +19,7 @@ import CovalentForm from "@/components/CovalentForms";
 import { getUserAssets, getUserTransactions } from '../utils/covalentAPI';
 import CreditScoreForm from '@/components/CovalentForms';
 import CreditScoreResult from '@/components/CreditScoreResults';
+import router from 'next/router';
 
 
 
@@ -43,6 +44,7 @@ export function Dashboard() {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   // const router = useRouter();
   const { isConnected } = useAccount();
@@ -88,11 +90,13 @@ export function Dashboard() {
 
 
   const handleScoreClick = () => {
-    router.push({
-      pathname: '/Score',
-      query: { data: JSON.stringify(result) }, // Pass the score data as a query parameter
-    });
+    if (result) {
+      const query = new URLSearchParams({ result: JSON.stringify(result) }).toString();
+      router.push(`/Score?${query}`);
+      // router.push(`/Score  `);
+    }
   };
+  
 
   // useEffect(() => {
   //   const fetchEthPrice = async () => {
@@ -222,7 +226,7 @@ export function Dashboard() {
         </div>
         </header>
         <main className="flex-1 grid gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-        <CovalentForm setResult={setResult} setError={setError}/>
+        <CovalentForm setResult={setResult} setError={setError} setLoading={setLoading}/>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
   <Card className="h-full flex flex-col">
     <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -234,20 +238,31 @@ export function Dashboard() {
       {/* <p className="text-xs text-muted-foreground">+20.1% from last month</p> */}
     </CardContent>
   </Card>
-  <Link href="/Score" passHref onClick={handleScoreClick}>
-    <Card className="h-full flex flex-col">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-medium">Idle Score</CardTitle>
-        <PieChartIcon className="w-4 h-4 text-muted-foreground" />
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <div >
-          <CreditScoreResult result={result} error={error} />
-          <p>Congratulations you are on your way to Finacial Efficiency click to learn here to learn more</p>
-        </div>
-      </CardContent>
-    </Card>
-  </Link>
+  <div
+              onClick={handleScoreClick}
+              className={`h-full flex flex-col transition-transform transform ${
+                result ? 'hover:scale-105 hover:shadow-lg cursor-pointer' : 'cursor-not-allowed'
+              }`}
+            >
+              <Card className="h-full flex flex-col">
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-sm font-medium">Idle Score</CardTitle>
+                  <PieChartIcon className="w-4 h-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <div>
+                    <CreditScoreResult result={result} error={error} loading={loading}/>
+                    {/* {error ? (
+                      <p>{error}</p>
+                    ) : result ? (
+                      <p>Congratulations you are on your way to Financial Efficiency. Click here to learn more</p>
+                    ) : (
+                      <p className='text-4xl font-bold pb-5 pt-5 flex-grow flex items-center justify-center'>Find Out Your Score Here!</p>
+                    )} */}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
   <Card className="h-full flex flex-col">
     <CardHeader className="flex flex-row items-center justify-between pb-2">
       <CardTitle className="text-sm font-medium">Earnings</CardTitle>
