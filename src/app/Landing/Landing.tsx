@@ -1,29 +1,25 @@
-'use client'
+"use client";
+
+import React, { useEffect } from 'react';
 import Link from "next/link"
+import { useRouter } from 'next/navigation';
+import { useAccount } from 'wagmi';
+import ConnectButton from '@/components/ui/ConnectButton';
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { JSX, SVGProps } from "react"
-import ConnectButton from "../../components/ui/ConnectButton"
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation' // Use next/navigation instead of next/router
-import { useAccount } from 'wagmi'
-
+import Image from 'next/image';
 
 
 export function Landing() {
-
-  const router = useRouter()
-  const { isConnected } = useAccount()
+  const router = useRouter();
+  const { isConnected } = useAccount();
 
   useEffect(() => {
     if (isConnected) {
-      router.push('dashboard') // Redirect to the Dashboard page
+      router.push('/dashboard'); // Redirect to the Dashboard page
     }
-  }, [isConnected, router])
-
-
-
-
+  }, [isConnected, router]);
 
   return (
     
@@ -81,7 +77,7 @@ export function Landing() {
                 </div>
               </div>
               <img
-                src="/placeholder.svg"
+                src="/public/assets/BCAMP_1.jpg"
                 width="550"
                 height="550"
                 alt="Hero"
@@ -105,10 +101,10 @@ export function Landing() {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <img
-                src="/placeholder.svg"
-                width="550"
-                height="310"
+            <Image
+                src="/public/assets/BCAMP_2.jpg"
+                width={550}
+                height={310}
                 alt="Image"
                 className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
               />

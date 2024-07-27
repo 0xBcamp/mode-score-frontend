@@ -7,7 +7,7 @@ interface CovalentItem {
   coinmarketcap_key: string;
 }
 
-const API_KEY = 'cqt_rQT34QB4J7VdBfg3Kv8RjVT9H3gP'; // Replace with your Covalent API key
+const API_KEY = 'process.env.NEXT_PUBLIC_COVALENT_KEY'; // Replace with your Covalent API key
 
 const API_URL = 'https://jm-mode-score.onrender.com/covalent';  // Adjust this URL to match your backend
 
@@ -18,6 +18,12 @@ export const getUserAssets = async (address: string) => {
   
 export const getUserTransactions = async (address: string) => {
     const response = await axios.get(`https://api.covalenthq.com/v1/1/address/${address}/transactions_v2/?key=${API_KEY}`);
+    return response.data;
+  };
+
+  export const getTransactions = async ({ eth_address, chain_id }: { eth_address: string, chain_id: string }) => {
+    const url = `https://api.covalenthq.com/v1/${chain_id}/address/${eth_address}/transactions_v2/?key=${API_KEY}`;
+    const response = await axios.get(url);
     return response.data;
   };
 
