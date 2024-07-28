@@ -1,7 +1,5 @@
 import React from 'react';
-import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card"
-
 
 interface WealthModalProps {
   data: any;
@@ -14,6 +12,10 @@ export function WealthModal({ data }: WealthModalProps) {
     return <p>No wealth data available</p>;
   }
 
+  const formatAmount = (amount: number | undefined) => {
+    return amount !== undefined ? `$${amount.toFixed(2)}` : 'N/A';
+  };
+
   return (
     <div className="grid gap-4">
       <div className="flex items-center gap-4">
@@ -23,19 +25,19 @@ export function WealthModal({ data }: WealthModalProps) {
         <Card>
           <CardHeader>
             <CardTitle>Current Balance</CardTitle>
-            <CardDescription>${explanation.cum_balance_now.toFixed(2)}</CardDescription>
+            <CardDescription>{formatAmount(explanation.cum_balance_now)}</CardDescription>
           </CardHeader>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle>Adjusted Balance</CardTitle>
-            <CardDescription>${explanation.cum_balance_now_adjusted.toFixed(2)}</CardDescription>
+            <CardDescription>{formatAmount(explanation.cum_balance_now_adjusted)}</CardDescription>
           </CardHeader>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle>Average Volume Per Transaction</CardTitle>
-            <CardDescription>${explanation.avg_volume_per_txn.toFixed(2)}</CardDescription>
+            <CardDescription>{formatAmount(explanation.avg_volume_per_txn)}</CardDescription>
           </CardHeader>
         </Card>
       </div>
