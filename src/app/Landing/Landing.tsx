@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button"
 import { JSX, SVGProps } from "react"
 import Image from 'next/image';
 
-
 export function Landing() {
   const router = useRouter();
   const { isConnected } = useAccount();
@@ -22,7 +21,6 @@ export function Landing() {
   }, [isConnected, router]);
 
   return (
-    
     <div className="flex flex-col min-h-[100dvh]">
 
       <header className="px-4 lg:px-6 h-14 flex items-center">
@@ -50,7 +48,6 @@ export function Landing() {
         </nav>
         <ConnectButton />
       </header>
-
 
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
@@ -87,7 +84,6 @@ export function Landing() {
           </div>
         </section>
 
-
         <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -101,7 +97,7 @@ export function Landing() {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-            <Image
+              <Image
                 src="/assets/BCAMP_2.jpg"
                 width={550}
                 height={310}
@@ -122,7 +118,7 @@ export function Landing() {
                     <div className="grid gap-1">
                       <h3 className="text-xl font-bold">Capital Efficiency Scoring</h3>
                       <p className="text-muted-foreground">
-                        Get a personalized score to understand how efficiently you're using your capital.
+                        Get a personalized score to understand how efficiently you&apos;re using your capital.
                       </p>
                     </div>
                   </li>
@@ -140,7 +136,6 @@ export function Landing() {
           </div>
         </section>
 
-
         <section id="about" className="w-full py-12 md:py-24 lg:py-32 border-t">
           <div className="container px-4 md:px-6">
             <div className="grid gap-10 sm:px-10 md:gap-16 md:grid-cols-2">
@@ -151,7 +146,7 @@ export function Landing() {
                 </h2>
                 <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed">
                   Mode Score was founded by a team of web3 developers who wanted to help inexperienced crypto investors
-                  like you manage and optimize your portfolios. We're dedicated to providing you with the tools and
+                  like you manage and optimize your portfolios. We&apos;re dedicated to providing you with the tools and
                   insights you need to succeed in the ever-evolving crypto market.
                 </p>
               </div>
@@ -159,8 +154,8 @@ export function Landing() {
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">Our Approach</div>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed">
                   At Mode Score, we believe that the key to successful crypto investing is not just about picking the
-                  right assets, but also about managing your capital efficiently. That's why we developed our
-                  proprietary scoring system to help you understand how well you're utilizing your funds and where you
+                  right assets, but also about managing your capital efficiently. That&apos;s why we developed our
+                  proprietary scoring system to help you understand how well you&apos;re utilizing your funds and where you
                   can improve.
                 </p>
                 <Link
@@ -175,8 +170,6 @@ export function Landing() {
           </div>
         </section>
 
-
-
         <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
@@ -190,7 +183,7 @@ export function Landing() {
                 <Input type="email" placeholder="Enter your email" className="max-w-lg flex-1" />
                 <Button type="submit">Submit</Button>
               </form>
-              <p className="text-xs text-muted-foreground">We'll get back to you as soon as possible.</p>
+              <p className="text-xs text-muted-foreground">We&apos;ll get back to you as soon as possible.</p>
             </div>
           </div>
         </section>
@@ -231,23 +224,22 @@ export function Landing() {
 //   )
 // }
 
-
-function XIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
-  )
-}
+// function XIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg
+//       {...props}
+//       xmlns="http://www.w3.org/2000/svg"
+//       width="24"
+//       height="24"
+//       viewBox="0 0 24 24"
+//       fill="none"
+//       stroke="currentColor"
+//       strokeWidth="2"
+//       strokeLinecap="round"
+//       strokeLinejoin="round"
+//     >
+//       <path d="M18 6 6 18" />
+//       <path d="m6 6 12 12" />
+//     </svg>
+//   )
+// }
