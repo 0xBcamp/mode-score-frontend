@@ -35,6 +35,23 @@ const Score: React.FC = () => {
         }
     }, [searchParams]);
 
+    // Redirect user to dashboard if wallet is changed
+    useEffect(() => {
+        if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
+            const handleChainChanged = (chainId: string) => {
+                console.log("Network changed to:", chainId);
+                window.location.href = '/Dashboard';
+            };
+
+            window.ethereum.on('chainChanged', handleChainChanged);
+
+            // Cleanup function
+            return () => {
+                window.ethereum.removeListener('chainChanged', handleChainChanged);
+            };
+        }
+    }, []);
+
     const openModal = (network: string) => {
         setSelectedNetwork(network);
         setIsModalOpen(true);
