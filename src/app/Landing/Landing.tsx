@@ -28,7 +28,7 @@ export function Landing() {
       <header className="px-4 lg:px-6 h-14 flex items-center">
 
         <Link href="#" className="flex items-center justify-center" prefetch={false}>
-          <BarChartIcon className="h-6 w-6" />
+          {/* <BarChartIcon className="h-6 w-6" /> */}
           <h1 className="text-lg font-medium hover:underline underline-offset-4 pl-2">Mode Score</h1>
           <span className="sr-only">Mode Score</span>
         </Link>
@@ -210,26 +210,26 @@ export function Landing() {
   )
 }
 
-function BarChartIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="12" x2="12" y1="20" y2="10" />
-      <line x1="18" x2="18" y1="20" y2="4" />
-      <line x1="6" x2="6" y1="20" y2="16" />
-    </svg>
-  )
-}
+// function BarChartIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
+//   return (
+//     <svg
+//       {...props}
+//       xmlns="http://www.w3.org/2000/svg"
+//       width="24"
+//       height="24"
+//       viewBox="0 0 24 24"
+//       fill="none"
+//       stroke="currentColor"
+//       strokeWidth="2"
+//       strokeLinecap="round"
+//       strokeLinejoin="round"
+//     >
+//       <line x1="12" x2="12" y1="20" y2="10" />
+//       <line x1="18" x2="18" y1="20" y2="4" />
+//       <line x1="6" x2="6" y1="20" y2="16" />
+//     </svg>
+//   )
+// }
 
 
 function XIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
