@@ -34,3 +34,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+# How the Earning chat works
+1. First, we'll use Covalent's "Get token balances for address" endpoint to identify which DeFi tokens the user holds.
+
+2. Then, we'll use the "Get ERC20 token transfers for address" endpoint to track interactions with known DeFi protocols.
+
+3. Finally, we'll interpret this data to estimate earnings from yield farming, liquidity provision, or other DeFi 1.activities. (Dont really know what was doing here)

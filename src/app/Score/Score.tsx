@@ -52,6 +52,7 @@ const Score: React.FC = () => {
         }
     }, []);
 
+
     const openModal = (network: string) => {
         setSelectedNetwork(network);
         setIsModalOpen(true);

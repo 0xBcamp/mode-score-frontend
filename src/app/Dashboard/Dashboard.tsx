@@ -24,6 +24,39 @@ import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/comp
 import ConnectButton from '@/components/ui/ConnectButton';
 import { ActivityIcon, DollarSignIcon, HomeIcon, PieChartIcon, SettingsIcon, WalletIcon } from 'lucide-react';
 import Link from 'next/link';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { getTokenBalances, getTokenTransfers, getDeFiTokens } from '@/services/covalentServices';
+
+interface Token {
+  contract_ticker_symbol: string;
+  contract_address: string;
+  // other properties can be added here as needed
+}
+
+interface DeFiToken {
+  contract_address: string;
+}
+
+interface Transfer {
+  transfer_type: string;
+  delta_quote: string;
+}
+
+interface TransferItem {
+  block_signed_at: string;
+  transfers: Transfer[];
+}
+
+interface TransfersResponse {
+  data: {
+      items: TransferItem[];
+  };
+}
+
+interface MonthlyEarnings {
+  month: string;
+  earnings: number;
+}
 
 const groupTransactionsByDate = (transactions: any[]) => {
   return transactions.reduce((acc: { [key: string]: any[] }, transaction) => {
@@ -54,6 +87,8 @@ export function Dashboard() {
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
   const [initialRender, setInitialRender] = useState(true);
+  const [earningsData, setEarningsData] = useState<MonthlyEarnings[]>([]);
+  const [defiTokens, setDefiTokens] = useState([]);
 
   useEffect(() => {
     if (!isConnected) {
@@ -136,6 +171,88 @@ export function Dashboard() {
   };
 
   const etherscanUrl = (hash: string) => `https://etherscan.io/tx/${hash}`;
+
+  
+    /**
+     * This Section takes care of calculating data used to display the chart
+     *
+     * 
+     */
+    useEffect(() => {
+      const fetchDeFiTokens = async () => {
+        try {
+          const tokens = await getDeFiTokens();
+          setDefiTokens(tokens);
+        } catch (error) {
+          console.error('Failed to fetch DeFi tokens:', error);
+        }
+      };
+  
+      fetchDeFiTokens();
+  }, []);
+
+  useEffect(() => {
+      const fetchDeFiEarnings = async () => {
+          if (address && chainId && defiTokens.length > 0) {
+          try {
+              // Step 1: Get token balances
+              const balancesResponse = await getTokenBalances({ eth_address: address, chain_id: chainId });
+              const userDefiTokens: DeFiToken[] = identifyDeFiTokens(balancesResponse.data.items, defiTokens);
+
+              // Step 2: Get transfers for each DeFi token
+              const allTransfers = await Promise.all(
+              userDefiTokens.map((token: DeFiToken) => 
+                  getTokenTransfers({ 
+                  eth_address: address, 
+                  chain_id: chainId, 
+                  contract_address: token.contract_address 
+                  })
+              )
+              );
+
+              // Step 3: Process transfers to estimate earnings
+              const processedData: MonthlyEarnings[] = processDefiTransfers(allTransfers, userDefiTokens);
+              setEarningsData(processedData);
+          } catch (error) {
+              console.error('Failed to fetch DeFi earnings data:', error);
+          }
+          }
+      };
+
+      fetchDeFiEarnings();
+  }, [address, chainId, defiTokens]);
+
+  const identifyDeFiTokens = (tokens: Token[], defiTokenList: string[]): DeFiToken[] => {
+      return tokens.filter(token => defiTokenList.includes(token.contract_ticker_symbol))
+                   .map(token => ({ contract_address: token.contract_address }));
+  };
+
+  const processDefiTransfers = (allTransfers: TransfersResponse[], defiTokens: DeFiToken[]): MonthlyEarnings[] => {
+      const monthlyEarnings: { [key: string]: number } = {};
+    
+      allTransfers.forEach((transfersResponse, index) => {
+        const token = defiTokens[index];
+        transfersResponse.data.items.forEach(transfer => {
+          // Simplification: consider all incoming transfers as earnings
+          if (transfer.transfers[0].transfer_type === 'IN') {
+            const date = new Date(transfer.block_signed_at);
+            const monthKey = `${date.getFullYear()}-${date.getMonth() + 1}`;
+            if (!monthlyEarnings[monthKey]) {
+              monthlyEarnings[monthKey] = 0;
+            }
+            monthlyEarnings[monthKey] += Number(transfer.transfers[0].delta_quote || 0);
+          }
+        });
+      });
+    
+      return Object.entries(monthlyEarnings)
+        .map(([month, earnings]) => ({
+          month: month.split('-')[1], // Just use month number for simplicity
+          earnings: parseFloat(earnings.toFixed(2))
+        }))
+        .sort((a, b) => parseInt(a.month) - parseInt(b.month))
+        .slice(-6); // Last 6 months
+  };
 
   return (
     <div className="flex min-h-screen w-full bg-muted/40">
@@ -244,11 +361,19 @@ export function Dashboard() {
             </div>
             <Card className="h-full flex flex-col">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Earnings</CardTitle>
+                <CardTitle className="text-sm font-medium">DeFi Earnings (Last 6 Months)</CardTitle>
                 <ActivityIcon className="w-4 h-4 text-muted-foreground" />
               </CardHeader>
               <CardContent className="flex-grow">
-                {/* <LinechartChart className="aspect-[4/3]" /> */}
+                <ResponsiveContainer width="100%" height={200}>
+                  <LineChart data={earningsData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    {/*<Tooltip />*/}
+                    <Line type="monotone" dataKey="earnings" stroke="#8884d8" />
+                  </LineChart>
+                </ResponsiveContainer>
               </CardContent>
             </Card>
           </div>
