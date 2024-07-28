@@ -76,8 +76,8 @@ export function Landing() {
                   </Link>
                 </div>
               </div>
-              <img
-                src="/public/assets/BCAMP_1.jpg"
+              <Image
+                src="/assets/BCAMP_1.jpg"
                 width="550"
                 height="550"
                 alt="Hero"
@@ -102,7 +102,7 @@ export function Landing() {
             </div>
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
             <Image
-                src="/public/assets/BCAMP_2.jpg"
+                src="/assets/BCAMP_2.jpg"
                 width={550}
                 height={310}
                 alt="Image"

@@ -417,7 +417,6 @@ export function Dashboard() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Date</TableHead>
-                    <TableHead>Token</TableHead>
                     <TableHead>USD Value</TableHead>
                     <TableHead>Transaction Hash</TableHead>
                     <TableHead />
@@ -426,11 +425,9 @@ export function Dashboard() {
                 <TableBody>
                   {Object.keys(groupedTransactions).map((date) =>
                     groupedTransactions[date].map((transaction) => {
-                      const { tokenName } = getTokenDetails(transaction);
                       return (
                         <TableRow key={transaction.tx_hash}>
                           <TableCell>{new Date(transaction.block_signed_at).toLocaleString()}</TableCell>
-                          <TableCell>{tokenName}</TableCell>
                           <TableCell>${transaction.value_quote.toFixed(2)}</TableCell>
                           <TableCell>{transaction.tx_hash}</TableCell>
                           <TableCell>
