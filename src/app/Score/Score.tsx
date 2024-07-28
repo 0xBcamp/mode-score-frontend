@@ -26,6 +26,7 @@ const Score: React.FC = () => {
             if (result) {
                 try {
                     const resultData = JSON.parse(result);
+                    console.log("result", resultData);
                     setParsedResult(resultData);
                 } catch (error) {
                     console.error('Failed to parse result:', error);
@@ -155,7 +156,8 @@ const Score: React.FC = () => {
                         <div className="text-yellow-300 bg-background rounded-lg text-4xl p-6 flex flex-col items-center justify-center gap-4 font-bold">
                             IDLE SCORE
                         </div>
-                        <div className="text-yellow-300 text-4xl font-bold">{parsedResult.score}</div>
+                        <div className="text-yellow-300 text-4xl font-bold">{parsedResult.feedback?.score?.quality || 'N/A'}</div>
+                        <div className="text-yellow-300 text-4xl font-bold">{parsedResult.score || 'N/A' }</div>
                         <div className="font-medium">{parsedResult.message}</div>
                     </div>
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
