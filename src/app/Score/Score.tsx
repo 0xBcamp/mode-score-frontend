@@ -13,13 +13,28 @@ import CredModal from "@/Modals/CredModal"
 import TrafficModal from "@/Modals/TrafficModal"
 import WealthModal from "@/Modals/WealthModal"
 import StaminaModal from "@/Modals/StaminaModal"
+import { useRouter } from 'next/navigation';
+import { useAccount, useChainId } from 'wagmi';
+
+
 
 const Score: React.FC = () => {
+    const { isConnected } = useAccount();
+    const router = useRouter();
     const searchParams = useSearchParams();
     const [parsedResult, setParsedResult] = useState<any>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedNetwork, setSelectedNetwork] = useState<string | null>(null);
 
+
+    useEffect(() => {
+        if (!isConnected) {
+          router.push('landing');
+        }
+      }, [isConnected, router]);
+
+      
+      
     useEffect(() => {
         if (searchParams) {
             const result = searchParams.get('result');
