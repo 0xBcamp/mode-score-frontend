@@ -101,6 +101,7 @@ ${colorConfig
   );
 };
 
+
 const ChartTooltip = RechartsPrimitive.Tooltip
 
 const ChartTooltipContent = React.forwardRef<
