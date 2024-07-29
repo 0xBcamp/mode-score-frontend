@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from "next/link"
 import { useRouter } from 'next/navigation';
 import { useAccount } from 'wagmi';
@@ -9,16 +9,32 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { JSX, SVGProps } from "react"
 import Image from 'next/image';
+import Spinner from '@/components/ui/Spinner';
+
 
 export function Landing() {
   const router = useRouter();
   const { isConnected } = useAccount();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Simulate a loading process or replace with actual async operation
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust the timeout as needed
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
     if (isConnected) {
       router.push('/dashboard'); // Redirect to the Dashboard page
     }
   }, [isConnected, router]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex flex-col min-h-[100dvh]">
@@ -203,43 +219,3 @@ export function Landing() {
   )
 }
 
-// function BarChartIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <line x1="12" x2="12" y1="20" y2="10" />
-//       <line x1="18" x2="18" y1="20" y2="4" />
-//       <line x1="6" x2="6" y1="20" y2="16" />
-//     </svg>
-//   )
-// }
-
-// function XIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <path d="M18 6 6 18" />
-//       <path d="m6 6 12 12" />
-//     </svg>
-//   )
-// }

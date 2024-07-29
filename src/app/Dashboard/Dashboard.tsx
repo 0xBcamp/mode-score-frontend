@@ -26,8 +26,9 @@ import { ActivityIcon, DollarSignIcon, HomeIcon, PieChartIcon, SettingsIcon, Wal
 import Link from 'next/link';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { getTokenBalances, getTokenTransfers, getDeFiTokens } from '@/services/covalentServices';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWallet } from '@fortawesome/free-solid-svg-icons';
+import Spinner from '@/components/ui/Spinner';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
 interface Token {
   contract_ticker_symbol: string;
@@ -255,6 +256,15 @@ export function Dashboard() {
         .sort((a, b) => parseInt(a.month) - parseInt(b.month))
         .slice(-6); // Last 6 months
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <p className="mt-4 text-xl">Quiet please, I am thinking!</p>
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen w-full bg-muted/40">
