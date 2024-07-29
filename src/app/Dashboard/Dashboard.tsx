@@ -368,7 +368,7 @@ export function Dashboard() {
             >
               <Card className="h-full flex flex-col">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium">Idle Score</CardTitle>
+                  <CardTitle className="text-sm font-medium">Mode Score</CardTitle>
                   <PieChartIcon className="w-4 h-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent className="flex-grow">

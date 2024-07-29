@@ -200,7 +200,7 @@ const Score: React.FC = () => {
                 <div className="flex flex-col gap-6 p-6 md:p-8 lg:p-10">
                     <div className="bg-background rounded-lg border border-yellow-300 p-6 flex flex-col items-center justify-center gap-4">
                         <div className="text-yellow-300 bg-background rounded-lg text-4xl p-6 flex flex-col items-center justify-center gap-4 font-bold">
-                            IDLE SCORE
+                            MODE SCORE
                         </div>
                         <div className="text-yellow-300 text-4xl font-bold">{parsedResult.feedback?.score?.quality || 'N/A'}</div>
                         <div className="text-yellow-300 text-4xl font-bold">{parsedResult.score || 'N/A' }</div>

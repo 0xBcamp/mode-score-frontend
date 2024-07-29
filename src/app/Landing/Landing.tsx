@@ -31,7 +31,7 @@ export function Landing() {
           <span className="sr-only">Mode Score</span>
         </Link>
 
-        <nav className="ml-auto flex gap-4 sm:gap-6">
+        <nav className="ml-auto flex gap-4 sm:gap-6 pr-4">
 
           <Link href="#features" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
             Features
