@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import ContactForm from '../ContactForm/ContactForm';
-import logo from '/Users/dhananjayjoshi/Documents/GitHub/mode-score-frontend/public/logo.png'; // Update this with the actual path to your logo image
+// import logo from ''; // Update this with the actual path to your logo image
+import logo from '../../../public/assets/logo.png';
 import Spinner from '@/components/ui/Spinner';
 
 
