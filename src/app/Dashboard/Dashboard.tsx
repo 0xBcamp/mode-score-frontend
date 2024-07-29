@@ -91,8 +91,7 @@ export function Dashboard() {
   const router = useRouter();
   const [initialRender, setInitialRender] = useState(true);
   const [earningsData, setEarningsData] = useState<MonthlyEarnings[]>([]);
-  const [defiTokens, setDefiTokens] = useState([]);
-
+  const [defiTokens, setDefiTokens] = useState<string[]>([]);
   useEffect(() => {
     if (!isConnected) {
       router.push('landing');

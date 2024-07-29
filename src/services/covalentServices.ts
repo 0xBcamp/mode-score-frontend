@@ -18,9 +18,10 @@ const COVALENT_KEY = process.env.NEXT_PUBLIC_COVALENT_KEY;
 
 const acceptedChainIds = ['1', '34443', '919', '11155111']; // Ethereum Mainnet Mode Mainnet, Mode Testnet, Sepolia Testnet
 
-
+/*
 const CACHE_KEY = 'defiTokenList';
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+*/
 
 export const getTransactions = async (data: CovalentItem) => {
   if (!acceptedChainIds.includes(data.chain_id)) {
@@ -67,7 +68,7 @@ export const getCreditScore = async (data: CovalentItem) => {
   }
 };
 
-
+/*
 export const getDeFiTokens = async () => {
   // Check if we have a cached list that's still valid
   const cachedData = localStorage.getItem(CACHE_KEY);
@@ -106,7 +107,7 @@ export const getDeFiTokens = async () => {
     return cachedData ? JSON.parse(cachedData).tokens : [];
   }
 };
-
+*/
 
 export const getTokenBalances = async ( data: getTokenBalances ) => {
   const url = `https://api.covalenthq.com/v1/${data.chain_id}/address/${data.eth_address}/balances_v2/`;
@@ -136,4 +137,100 @@ export const getTokenTransfers = async (data: getTokenTransfers) => {
     },
   });
   return response.data;
+};
+
+
+// Define the type for the tokens
+type Token = string;
+const TOP_70_DEFI_TOKENS: Token[] = [
+  "UNI",   // Uniswap
+  "LINK",  // Chainlink
+  "AAVE",  // Aave
+  "SNX",   // Synthetix
+  "MKR",   // Maker
+  "YFI",   // Yearn.finance
+  "COMP",  // Compound
+  "SUSHI", // SushiSwap
+  "CRV",   // Curve
+  "RUNE",  // Thorchain
+  "BAL",   // Balancer
+  "1INCH", // 1inch
+  "LRC",   // Loopring
+  "REN",   // Ren
+  "ZRX",   // 0x
+  "KNC",   // Kyber Network
+  "BNT",   // Bancor
+  "GRT",   // The Graph
+  "LEND",  // Aave (legacy)
+  "SRM",   // Serum
+  "FIL",   // Filecoin
+  "SAND",  // The Sandbox
+  "MATIC", // Polygon
+  "ALCX",  // Alchemix
+  "DF",    // dForce
+  "GALA",  // Gala
+  "FARM",  // Harvest Finance
+  "SFI",   // Standard Protocol
+  "MTA",   // Meta
+  "CVC",   // Civic
+  "BNT",   // Bancor Network Token
+  "RGT",   // Rally
+  "DODO",  // DODO
+  "Hegic", // Hegic
+  "PUNK",  // Polkamarkets
+  "RLY",   // Rally
+  "MITH",  // Mithril
+  "DIA",   // DIA
+  "COTI",  // COTI
+  "LDO",   // Lido
+  "DNT",   // district0x
+  "COVER", // Cover Protocol
+  "PERL",  // Perlin
+  "NKN",   // NKN
+  "IOST",  // IOST
+  "SRM",   // Serum
+  "CHZ",   // Chiliz
+  "DODO",  // DODO
+  "XEM",   // Nem
+  "BAND",  // Band Protocol
+  "STPT",  // Stably
+  "FLOKI", // Floki Inu
+  "HARD",  // Harvest Finance
+  "TWT",   // Trust Wallet Token
+  "XVS",   // Venus
+  "RLC",   // iExec
+  "AKRO",  // Akropolis
+  "GNO",   // Gnosis
+  "FLOKI"  // Floki Inu
+];
+
+
+interface CachedData {
+  timestamp: number;
+  tokens: Token[];
+}
+
+const CACHE_KEY = 'deFiTokensCache'; // Define your cache key here
+const CACHE_DURATION = 3600000; // Example: 1 hour in milliseconds
+
+export const getDeFiTokens = async (): Promise<Token[]> => {
+  // Check if we have a cached list that's still valid
+  const cachedData = localStorage.getItem(CACHE_KEY);
+  if (cachedData) {
+    const { timestamp, tokens }: CachedData = JSON.parse(cachedData);
+    if (Date.now() - timestamp < CACHE_DURATION) {
+      return tokens;
+    }
+  }
+
+  // Use the provided tokens JSON object instead of making an API call
+  const tokens: Token[] = TOP_70_DEFI_TOKENS;
+
+  // Cache the tokens
+  localStorage.setItem(CACHE_KEY, JSON.stringify({
+    timestamp: Date.now(),
+    tokens: tokens
+  }));
+
+  return tokens;
 };
