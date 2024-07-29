@@ -10,11 +10,22 @@ import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import ContactForm from '../ContactForm/ContactForm';
 import logo from '/Users/dhananjayjoshi/Documents/GitHub/mode-score-frontend/public/logo.png'; // Update this with the actual path to your logo image
+import Spinner from '@/components/ui/Spinner';
 
 
 export function Landing() {
   const router = useRouter();
   const { isConnected } = useAccount();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Simulate a loading process or replace with actual async operation
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust the timeout as needed
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
     if (document) {
@@ -60,6 +71,9 @@ export function Landing() {
   const scrollToSection = (ref: RefObject<HTMLElement>) => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="flex flex-col min-h-[100dvh]">
@@ -254,43 +268,3 @@ export function Landing() {
   );
 }
 
-// function BarChartIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <line x1="12" x2="12" y1="20" y2="10" />
-//       <line x1="18" x2="18" y1="20" y2="4" />
-//       <line x1="6" x2="6" y1="20" y2="16" />
-//     </svg>
-//   )
-// }
-
-// function XIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-//   return (
-//     <svg
-//       {...props}
-//       xmlns="http://www.w3.org/2000/svg"
-//       width="24"
-//       height="24"
-//       viewBox="0 0 24 24"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth="2"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//     >
-//       <path d="M18 6 6 18" />
-//       <path d="m6 6 12 12" />
-//     </svg>
-//   )
-// }

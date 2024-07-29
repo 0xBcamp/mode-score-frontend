@@ -15,7 +15,7 @@ import WealthModal from "@/Modals/WealthModal"
 import StaminaModal from "@/Modals/StaminaModal"
 import { useRouter } from 'next/navigation';
 import { useAccount, useChainId } from 'wagmi';
-
+import Spinner from "@/components/ui/Spinner";
 
 
 const Score: React.FC = () => {
@@ -25,16 +25,14 @@ const Score: React.FC = () => {
     const [parsedResult, setParsedResult] = useState<any>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedNetwork, setSelectedNetwork] = useState<string | null>(null);
-
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         if (!isConnected) {
           router.push('landing');
         }
-      }, [isConnected, router]);
+    }, [isConnected, router]);
 
-      
-      
     useEffect(() => {
         if (searchParams) {
             const result = searchParams.get('result');
@@ -43,10 +41,16 @@ const Score: React.FC = () => {
                     const resultData = JSON.parse(result);
                     console.log("result", resultData);
                     setParsedResult(resultData);
+                    setLoading(false);  // Stop loading when data is parsed
                 } catch (error) {
                     console.error('Failed to parse result:', error);
+                    setLoading(false);  // Stop loading on error
                 }
+            } else {
+                setLoading(false);  // Stop loading if no result in searchParams
             }
+        } else {
+            setLoading(false);  // Stop loading if no searchParams
         }
     }, [searchParams]);
 
@@ -67,7 +71,6 @@ const Score: React.FC = () => {
         }
     }, []);
 
-
     const openModal = (network: string) => {
         setSelectedNetwork(network);
         setIsModalOpen(true);
@@ -77,6 +80,10 @@ const Score: React.FC = () => {
         setSelectedNetwork(null);
         setIsModalOpen(false);
     };
+
+    if (loading) {
+        return <Spinner />;
+    }
 
     if (!parsedResult) {
         return <p>No data available</p>;
@@ -174,27 +181,6 @@ const Score: React.FC = () => {
                     </Link>
                     <div className="ml-auto flex items-center gap-2">
                         <ConnectButton />
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="icon" className="overflow-hidden rounded-full">
-                                    <img
-                                        src="/placeholder.svg"
-                                        width={36}
-                                        height={36}
-                                        alt="Avatar"
-                                        className="overflow-hidden rounded-full"
-                                    />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>Settings</DropdownMenuItem>
-                                <DropdownMenuItem>Support</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>Logout</DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
                     </div>
                 </header>
                 <div className="flex flex-col gap-6 p-6 md:p-8 lg:p-10">

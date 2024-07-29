@@ -26,8 +26,9 @@ import { ActivityIcon, DollarSignIcon, HomeIcon, PieChartIcon, SettingsIcon, Wal
 import Link from 'next/link';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { getTokenBalances, getTokenTransfers, getDeFiTokens } from '@/services/covalentServices';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWallet } from '@fortawesome/free-solid-svg-icons';
+import Spinner from '@/components/ui/Spinner';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
 interface Token {
   contract_ticker_symbol: string;
@@ -256,6 +257,19 @@ export function Dashboard() {
         .slice(-6); // Last 6 months
   };
 
+  const allTransactions = Object.keys(groupedTransactions)
+  .flatMap(date => groupedTransactions[date])
+  .sort((a, b) => new Date(b.block_signed_at).getTime() - new Date(a.block_signed_at).getTime());
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <p className="mt-4 text-xl">Quiet please, I am thinking!</p>
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen w-full bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
@@ -424,7 +438,7 @@ export function Dashboard() {
               </Table>
             </CardContent>
           </Card>
-          <Card id = "Transactions">
+          <Card id="Transactions">
             <CardHeader className="px-7">
               <CardTitle>Recent Transactions</CardTitle>
               <CardDescription>Your latest DeFi transactions.</CardDescription>
@@ -440,27 +454,25 @@ export function Dashboard() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {Object.keys(groupedTransactions).map((date) =>
-                    groupedTransactions[date].map((transaction) => {
-                      return (
-                        <TableRow key={transaction.tx_hash}>
-                          <TableCell>{new Date(transaction.block_signed_at).toLocaleString()}</TableCell>
-                          <TableCell>${transaction.value_quote.toFixed(2)}</TableCell>
-                          <TableCell>{transaction.tx_hash}</TableCell>
-                          <TableCell>
-                            <a
-                              href={etherscanUrl(transaction.tx_hash)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-500 hover:underline"
-                            >
-                              More Details
-                            </a>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })
-                  )}
+                  {allTransactions.slice(0, 10).map((transaction) => {
+                    return (
+                      <TableRow key={transaction.tx_hash}>
+                        <TableCell>{new Date(transaction.block_signed_at).toLocaleString()}</TableCell>
+                        <TableCell>${transaction.value_quote?.toFixed(2) ?? '0.00'}</TableCell>
+                        <TableCell>{transaction.tx_hash}</TableCell>
+                        <TableCell>
+                          <a
+                            href={etherscanUrl(transaction.tx_hash)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:underline"
+                          >
+                            More Details
+                          </a>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </CardContent>
