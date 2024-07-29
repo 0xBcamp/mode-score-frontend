@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import Link from "next/link"
+import React, { useEffect, useRef , RefObject , useState} from 'react';
+import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useAccount } from 'wagmi';
 import ConnectButton from '@/components/ui/ConnectButton';
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { JSX, SVGProps } from "react"
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import Image from 'next/image';
+import ContactForm from '../ContactForm/ContactForm';
+import logo from '/Users/dhananjayjoshi/Documents/GitHub/mode-score-frontend/public/logo.png'; // Update this with the actual path to your logo image
 import Spinner from '@/components/ui/Spinner';
 
 
@@ -27,11 +28,49 @@ export function Landing() {
   }, []);
 
   useEffect(() => {
+    if (document) {
+      const stylesheet = document.createElement("link");
+      stylesheet.rel = "stylesheet";
+      stylesheet.href = "https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css";
+
+      document.head.appendChild(stylesheet);
+    }
+  }, []);
+  // Create references for each section
+  const featuresRef = useRef(null);
+  const aboutRef = useRef(null);
+  const contactRef = useRef(null);
+
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Function to scroll to the top
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
     if (isConnected) {
       router.push('/dashboard'); // Redirect to the Dashboard page
     }
   }, [isConnected, router]);
 
+  // Function to scroll to a specific section
+  const scrollToSection = (ref: RefObject<HTMLElement>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
   if (loading) {
     return <Spinner />;
   }
@@ -40,27 +79,20 @@ export function Landing() {
     <div className="flex flex-col min-h-[100dvh]">
 
       <header className="px-4 lg:px-6 h-14 flex items-center">
-
-        <Link href="#" className="flex items-center justify-center" prefetch={false}>
-          {/* <BarChartIcon className="h-6 w-6" /> */}
-          <h1 className="text-lg font-medium hover:underline underline-offset-4 pl-2">Mode Score</h1>
-          <span className="sr-only">Mode Score</span>
+      <Link href="#" className="flex items-center justify-center" prefetch={false}>
+          <Image src={logo} alt="Mode Score Logo" width={100} height={100} /> {/* Adjust width and height as needed */}
         </Link>
 
         <nav className="ml-auto flex gap-4 sm:gap-6 pr-4">
-
-          <Link href="#features" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+          <Button onClick={() => scrollToSection(featuresRef)} className="text-sm font-medium hover:underline underline-offset-4">
             Features
-          </Link>
-
-          <Link href="#about" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+          </Button>
+          <Button onClick={() => scrollToSection(aboutRef)} className="text-sm font-medium hover:underline underline-offset-4">
             About
-          </Link>
-
-          <Link href="#contact" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+          </Button>
+          <Button onClick={() => scrollToSection(contactRef)} className="text-sm font-medium hover:underline underline-offset-4">
             Contact
-          </Link>
-
+          </Button>
         </nav>
         <ConnectButton />
       </header>
@@ -100,7 +132,7 @@ export function Landing() {
           </div>
         </section>
 
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+        <section ref={featuresRef} id="features" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -152,7 +184,7 @@ export function Landing() {
           </div>
         </section>
 
-        <section id="about" className="w-full py-12 md:py-24 lg:py-32 border-t">
+        <section ref={aboutRef} id="about" className="w-full py-12 md:py-24 lg:py-32 border-t">
           <div className="container px-4 md:px-6">
             <div className="grid gap-10 sm:px-10 md:gap-16 md:grid-cols-2">
               <div className="space-y-4">
@@ -174,33 +206,40 @@ export function Landing() {
                   proprietary scoring system to help you understand how well you&apos;re utilizing your funds and where you
                   can improve.
                 </p>
-                <Link
-                  href="#"
-                  className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                  prefetch={false}
+                <Button
+                  className="text-sm font-medium hover:underline underline-offset-4"
+                  onClick={() => scrollToSection(contactRef)}
                 >
                   Contact Us
-                </Link>
+                </Button>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
-            <div className="space-y-3">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">Get in Touch</h2>
-              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Have a question or want to learn more about how Mode Score can help you? Contact us today.
-              </p>
+        <section ref={contactRef} id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+        <div className="container px-4 md:px-6">
+            <div className="grid gap-10 sm:px-10 md:gap-16 md:grid-cols-2">
+              <div className="space-y-4">
+                <h2 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
+                  Contact Us
+                </h2>
+                <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed">
+                  If you have any queries or feedback, feel free to reach out to us. We&apos;re here to help you succeed in
+                  the crypto market.
+                </p>
+              </div>
+              <div className="flex flex-col items-start space-y-4">
+                <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed">
+                  At Mode Score, we believe that the key to successful crypto investing is not just about picking the
+                  right assets, but also about managing your capital efficiently. That&apos;s why we developed our
+                  proprietary scoring system to help you understand how well you&apos;re utilizing your funds and where you
+                  can improve.
+                </p>
+                <ContactForm />
             </div>
-            <div className="mx-auto w-full max-w-sm space-y-2">
-              <form className="flex gap-2">
-                <Input type="email" placeholder="Enter your email" className="max-w-lg flex-1" />
-                <Button type="submit">Submit</Button>
-              </form>
-              <p className="text-xs text-muted-foreground">We&apos;ll get back to you as soon as possible.</p>
-            </div>
+          </div>
+            
           </div>
         </section>
       </main>
@@ -215,7 +254,17 @@ export function Landing() {
           </Link>
         </nav>
       </footer>
+
+      {/* Scroll to Top Button */}
+      {showScrollToTop && (
+        <button 
+          onClick={scrollToTop} 
+          className="fixed bottom-6 right-6 p-3 bg-blue-500 text-white rounded-full shadow-lg transition-opacity hover:opacity-80"
+        >
+          ↑
+        </button>
+      )}
     </div>
-  )
+  );
 }
 
