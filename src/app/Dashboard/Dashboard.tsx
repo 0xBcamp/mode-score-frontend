@@ -266,10 +266,10 @@ export function Dashboard() {
               <TooltipTrigger asChild>
                 <Link
                   href="/dashboard"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  className="group flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <HomeIcon className="h-5 w-5" />
+                  <HomeIcon className="h-5 w-5 transition-all group-hover:scale-110" />
                   <span className="sr-only">Home</span>
                 </Link>
               </TooltipTrigger>
@@ -279,14 +279,16 @@ export function Dashboard() {
             
           <Tooltip>
             <TooltipTrigger asChild>
+            <div>
             <Link
-              href="#"
+              href="#Transactions"
               className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
               prefetch={false}
             >
               <WalletIcon className="h-4 w-4 text-white transition-all group-hover:scale-110" />
               <span className="sr-only">Transactions</span>
             </Link>
+            </div>
             </TooltipTrigger>
             <TooltipContent side="right">Transactions</TooltipContent>
             </Tooltip>
@@ -296,36 +298,38 @@ export function Dashboard() {
                 <div onClick={handleScoreClick}> 
                 <Link
                   href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <ActivityIcon className="h-5 w-5" />
+                  <ActivityIcon className="h-5 w-5 transition-all group-hover:scale-110" />
                   <span className="sr-only">Score</span>
                 </Link></div>
               </TooltipTrigger>
               <TooltipContent side="right">Score</TooltipContent>
             </Tooltip>
+
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  href="#Assets"
+                  className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <PieChartIcon className="h-5 w-5" />
+                  <PieChartIcon className="h-5 w-5 transition-all group-hover:scale-110" />
                   <span className="sr-only">Assets</span>
                 </Link>
               </TooltipTrigger>
               <TooltipContent side="right">Assets</TooltipContent>
             </Tooltip>
+
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  href="#Settings"
+                  className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <SettingsIcon className="h-5 w-5" />
+                  <SettingsIcon className="h-5 w-5 transition-all group-hover:scale-110" />
                   <span className="sr-only">Settings</span>
                 </Link>
               </TooltipTrigger>
@@ -390,7 +394,7 @@ export function Dashboard() {
               </CardContent>
             </Card>
           </div>
-          <Card>
+          <Card id = "Assets">
             <CardHeader className="px-7">
               <CardTitle>Asset Breakdown</CardTitle>
               <CardDescription>Your current asset holdings.</CardDescription>
@@ -420,7 +424,7 @@ export function Dashboard() {
               </Table>
             </CardContent>
           </Card>
-          <Card>
+          <Card id = "Transactions">
             <CardHeader className="px-7">
               <CardTitle>Recent Transactions</CardTitle>
               <CardDescription>Your latest DeFi transactions.</CardDescription>
