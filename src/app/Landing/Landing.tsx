@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import ContactForm from '../ContactForm/ContactForm';
-import logo from '../../../public/logo.png'; // Update this with the actual path to your logo image
+import logo from '../assets/logo.png';
 import Spinner from '@/components/ui/Spinner';
 
 
