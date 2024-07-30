@@ -11,7 +11,6 @@ import Image from 'next/image';
 import ContactForm from '../ContactForm/ContactForm';
 import Spinner from '@/components/ui/Spinner';
 
-
 export function Landing() {
   const router = useRouter();
   const { isConnected } = useAccount();
@@ -113,7 +112,7 @@ export function Landing() {
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link
-                    href="#"
+                    href="/assets/ModeScoreProposal.pptx"
                     className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                     prefetch={false}
                   >

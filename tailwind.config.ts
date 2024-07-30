@@ -8,6 +8,8 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./public/*.{png,svg,jpg}",
+    "./public/assets/*.pptx"
   ],
   include: ["global.d.ts"],
   theme: {
@@ -59,12 +61,12 @@ const config: Config = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0px" },
+          from: { height: "0" }, // Changed to string
           to: { height: "var(--radix-accordion-content-height)" }
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0px" }
+          to: { height: "0" } // Changed to string
         }
       },
       animation: {
