@@ -1,28 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { getCreditScore } from '../services/covalentServices';
-import { useAccount, useChainId } from 'wagmi'; // Import useChainID from wagmi
 
-interface CreditScoreFormProps {
+interface PeerCreditScoreFormProps {
   setResult: React.Dispatch<React.SetStateAction<any>>;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreditScoreForm: React.FC<CreditScoreFormProps> = ({ setResult, setError, setLoading }) => {
-  const { address, isConnected } = useAccount(); // Get the wallet address from wagmi
-  const initialChainId = useChainId(); // Use the custom hook to get the initial chain ID
+const PeerCreditScoreForm: React.FC<PeerCreditScoreFormProps> = ({ setResult, setError, setLoading }) => {
   const [ethAddress, setEthAddress] = useState('');
-  const [chainId, setChainId] = useState(initialChainId.toString()); // Default to the initial chain ID as a string
-
-  useEffect(() => {
-    if (isConnected && address) {
-      setEthAddress(address); // Set the wallet address if connected
-    }
-  }, [isConnected, address]);
-
-  useEffect(() => {
-    setChainId(initialChainId.toString()); // Update the chain ID when it changes
-  }, [initialChainId]);
+  const [chainId, setChainId] = useState('1'); // Default to Ethereum Mainnet
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -31,7 +18,7 @@ const CreditScoreForm: React.FC<CreditScoreFormProps> = ({ setResult, setError, 
 
     const data = {
       eth_address: ethAddress,
-      chain_id: chainId, // Include chain_id as a string
+      chain_id: chainId,
     };
 
     try {
@@ -54,7 +41,6 @@ const CreditScoreForm: React.FC<CreditScoreFormProps> = ({ setResult, setError, 
             value={ethAddress}
             onChange={(e) => setEthAddress(e.target.value)}
             required
-            disabled={isConnected} // Disable the input if connected to a wallet
           />
         </div>
         <div>
@@ -73,4 +59,4 @@ const CreditScoreForm: React.FC<CreditScoreFormProps> = ({ setResult, setError, 
   );
 };
 
-export default CreditScoreForm;
+export default PeerCreditScoreForm;

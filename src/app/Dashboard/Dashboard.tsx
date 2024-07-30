@@ -27,6 +27,7 @@ import Link from 'next/link';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { getTokenBalances, getTokenTransfers, getDeFiTokens } from '@/services/covalentServices';
 import Spinner from '@/components/ui/Spinner';
+import { Button } from '@/components/ui/button';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
@@ -157,6 +158,13 @@ export function Dashboard() {
     if (result) {
       const query = new URLSearchParams({ result: JSON.stringify(result) }).toString();
       router.push(`/Score?${query}`);
+    }
+  };
+
+  const handleCompareWalletClick = () => {
+    if (result) {
+      const query = new URLSearchParams({ result: JSON.stringify(result) }).toString();
+      router.push(`/WalletComparisonPage?${query}`);
     }
   };
 
@@ -374,21 +382,27 @@ export function Dashboard() {
                 <div className="text-2xl font-bold">${totalWalletBalance.toFixed(2)}</div>
               </CardContent>
             </Card>
-            <div
-              onClick={handleScoreClick}
-              className={`h-full flex flex-col transition-transform transform ${
+            <div className={`h-full flex flex-col transition-transform transform ${
                 result ? 'hover:scale-105 hover:shadow-lg cursor-pointer' : 'cursor-not-allowed'
               }`}
             >
               <Card className="h-full flex flex-col">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium">Mode Score</CardTitle>
-                  <PieChartIcon className="w-4 h-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <CreditScoreResult result={result} error={error} loading={loading} />
-                </CardContent>
+                <div onClick={handleScoreClick}>
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    <CardTitle className="text-sm font-medium">Mode Score</CardTitle>
+                    <PieChartIcon className="w-4 h-4 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <CreditScoreResult result={result} error={error} loading={loading} />
+                  </CardContent>
+                </div>
+                <div className="flex flex-grow flex-col items-center justify-center">
+                  <Button variant="outline" size="sm" onClick={handleCompareWalletClick}>
+                    Compare Wallet
+                  </Button>
+                </div>
               </Card>
+
             </div>
             <Card className="h-full flex flex-col">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
