@@ -67,7 +67,7 @@ const CreditScoreForm: React.FC<CreditScoreFormProps> = ({ setResult, setError, 
             {/* Add other chain IDs as needed */}
           </select>
         </div>
-        <button type="submit">Get Idle Score</button>
+        <button type="submit">Get Mode Score</button>
       </form>
     </div>
   );
