@@ -9,11 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import ContactForm from '../ContactForm/ContactForm';
+import logo from '../../../public/assets/logo.png'; // Update this with the actual path to your logo image
 import Spinner from '@/components/ui/Spinner';
 import Team from '../Team';
 // Update in Landing component
-
-
 
 
 export function Landing() {
@@ -21,7 +20,6 @@ export function Landing() {
   const { isConnected } = useAccount();
   const [loading, setLoading] = useState<boolean>(true);
 
-  
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setLoading(false);
@@ -84,7 +82,7 @@ export function Landing() {
 
       <header className="px-4 lg:px-6 h-14 flex items-center">
       <Link href="#" className="flex items-center justify-center" prefetch={false}>
-          <Image src='../assets/logo.png' alt="Mode Score Logo" width={100} height={100} /> {/* Adjust width and height as needed */}
+          <Image src={logo} alt="Mode Score Logo" width={100} height={100} /> {/* Adjust width and height as needed */}
         </Link>
 
         <nav className="ml-auto flex gap-4 sm:gap-6 pr-4">
