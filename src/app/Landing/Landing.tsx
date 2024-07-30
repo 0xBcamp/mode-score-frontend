@@ -11,6 +11,11 @@ import Image from 'next/image';
 import ContactForm from '../ContactForm/ContactForm';
 import logo from '../../../public/logo.png'; // Update this with the actual path to your logo image
 import Spinner from '@/components/ui/Spinner';
+import Team from '../Team';
+// Update in Landing component
+
+
+
 
 
 export function Landing() {
@@ -19,10 +24,9 @@ export function Landing() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Simulate a loading process or replace with actual async operation
     const timeoutId = setTimeout(() => {
       setLoading(false);
-    }, 2000); // Adjust the timeout as needed
+    }, 1000); 
 
     return () => clearTimeout(timeoutId);
   }, []);
@@ -40,6 +44,7 @@ export function Landing() {
   const featuresRef = useRef(null);
   const aboutRef = useRef(null);
   const contactRef = useRef(null);
+  const teamRef = useRef(null);
 
   const [showScrollToTop, setShowScrollToTop] = useState(false);
 
@@ -90,6 +95,9 @@ export function Landing() {
           <Button onClick={() => scrollToSection(aboutRef)} className="text-sm font-medium hover:underline underline-offset-4">
             About
           </Button>
+          <Button onClick={() => scrollToSection(teamRef)} className="text-sm font-medium hover:underline underline-offset-4">
+            Team
+          </Button>
           <Button onClick={() => scrollToSection(contactRef)} className="text-sm font-medium hover:underline underline-offset-4">
             Contact
           </Button>
@@ -112,13 +120,14 @@ export function Landing() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link
-                    href="#"
-                    className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                    prefetch={false}
+                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                  <Button
+                  onClick={() => router.push('/LearnMore')}
+                  className="inline-flex h-10 items-center justify-center rounded-md border border-input px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                   >
-                    Learn More
-                  </Link>
+                  Learn More
+                  </Button>
+                </div>
                 </div>
               </div>
               <Image
@@ -216,7 +225,11 @@ export function Landing() {
             </div>
           </div>
         </section>
-
+        <br/>
+        <section ref={teamRef} id="team">
+        <Team />
+        <br/>
+        </section>
         <section ref={contactRef} id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
         <div className="container px-4 md:px-6">
             <div className="grid gap-10 sm:px-10 md:gap-16 md:grid-cols-2">

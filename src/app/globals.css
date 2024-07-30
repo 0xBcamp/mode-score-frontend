@@ -5,6 +5,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.fancy-text {
+  font-family: 'Cinzel', serif; 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  color: #FFD700; 
+}
+
 @layer base {
   :root {
     /* Set 1 */
