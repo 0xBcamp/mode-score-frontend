@@ -13,7 +13,7 @@ import Spinner from "@/components/ui/Spinner";
 import PeerCreditScoreForm from '../../components/PeerCreditForm';
 
 interface Score {
-    data: {
+    data?: {
         score: number;
         feedback: {
             score: {
@@ -57,7 +57,7 @@ export default function Component({ data }: Score) {
     const [peerLoading, setPeerLoading] = useState<boolean>(false);
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [parsedResult, setParsedResult] = useState<any>(data);
+    const [parsedResult, setParsedResult] = useState<Score['data'] | null>(data || null);
 
     const cred = parsedResult?.explanation?.credibility;
     const stam = parsedResult?.explanation?.stamina;
@@ -71,24 +71,26 @@ export default function Component({ data }: Score) {
     }, [isConnected, router]);
 
     useEffect(() => {
-        if (searchParams) {
-            const result = searchParams.get('result');
-            if (result) {
-                try {
-                    const resultData = JSON.parse(result);
-                    setParsedResult(resultData);
-                    setLoading(false);
-                } catch (error) {
-                    console.error('Failed to parse result:', error);
-                    setLoading(false);
-                }
-            } else {
-                setLoading(false);
+        if (!data && searchParams) {
+          const result = searchParams.get('result');
+          if (result) {
+            try {
+              const resultData = JSON.parse(result);
+              setParsedResult(resultData);
+              setLoading(false);
+            } catch (error) {
+              console.error('Failed to parse result:', error);
+              setError('Invalid data format. Please try again.');
+              setLoading(false);
             }
-        } else {
+          } else {
+            setError('No data provided. Please ensure the URL includes the necessary parameters.');
             setLoading(false);
+          }
+        } else {
+          setLoading(false);
         }
-    }, [searchParams]);
+      }, [data, searchParams]);
 
     useEffect(() => {
         if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
@@ -120,6 +122,14 @@ export default function Component({ data }: Score) {
 
     if (loading) {
         return <Spinner />;
+    }
+
+    if (error) {
+        return <div className="text-red-500">{error}</div>;
+    }
+      
+    if (!parsedResult) {
+    return <div>No data available</div>;
     }
 
     const handleReset = () => {

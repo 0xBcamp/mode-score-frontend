@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import teamData from '../../public/assets/teamData'; // Import your team data
+import teamData from '../../public/assets/teamdata'; // Import your team data
 
 
 const Team = () => {
