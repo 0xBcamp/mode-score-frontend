@@ -19,7 +19,7 @@ const CreditScoreResult: React.FC<CreditScoreResultProps> = ({ result, error, lo
         </div>
       ) : result ? (
         <div>
-          <p className="text-4xl text-yellow-500 font-bold pb-5 pt-5 flex-grow flex items-center justify-center">
+          <p className="text-4xl text-yellow-400 font-bold pb-5 pt-5 flex-grow flex items-center justify-center">
             {result.score}
           </p>
           <p>Congratulations on taking your first step into financial efficiency. Click here for more details. 😎</p>

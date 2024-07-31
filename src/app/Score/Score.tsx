@@ -16,6 +16,7 @@ import StaminaModal from "@/Modals/StaminaModal"
 import { useRouter } from 'next/navigation';
 import { useAccount, useChainId } from 'wagmi';
 import Spinner from "@/components/ui/Spinner";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 
 const Score: React.FC = () => {
@@ -90,7 +91,7 @@ const Score: React.FC = () => {
     }
 
     return (
-        <>
+      <div className="flex min-h-screen w-full bg-muted/40">
             <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
             <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <TooltipProvider>
@@ -174,7 +175,7 @@ const Score: React.FC = () => {
             <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 w-full">
                 <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
                         <div className="flex items-center gap-2">
-                        <span className="text-lg font-bold text-right" style={{ paddingLeft: '35px' }}>Score Details</span>
+                        <span className="text-3xl font-bold text-right" style={{ paddingLeft: '35px' }}>Score Details</span>
                         </div>
                     <div className="ml-auto flex items-center gap-2">
                         <ConnectButton />
@@ -182,7 +183,7 @@ const Score: React.FC = () => {
                 </header>
                 <div className="flex flex-col gap-6 p-6 md:p-8 lg:p-10">
                     <div className="bg-background rounded-lg border border-yellow-300 p-6 flex flex-col items-center justify-center gap-4">
-                        <div className="text-yellow-300 bg-background rounded-lg text-4xl p-6 flex flex-col items-center justify-center gap-4 font-bold">
+                        <div className="text-gray-800 bg-gradient-to-tr w-full from-yellow-400 via-yellow-400 to-white rounded-lg text-4xl p-6 flex flex-col items-center justify-center gap-4 font-bold">
                             MODE SCORE
                         </div>
                         <div className="text-yellow-300 text-4xl font-bold">{parsedResult.feedback?.score?.quality || 'N/A'}</div>
@@ -215,6 +216,38 @@ const Score: React.FC = () => {
                             </Button>
                         </div>
                     </div>
+                    <Card className="bg-background rounded-lg border p-6 flex flex-col gap-2">
+                        <CardHeader>
+                            <CardTitle>Recommendations</CardTitle>
+                        </CardHeader>
+                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
+                          <Card>
+                            <CardTitle>Credibility</CardTitle>
+                            <CardDescription>
+                              Credibility Feedback
+                            </CardDescription>
+                          </Card>
+                          <Card>
+                            <CardTitle>Stamina</CardTitle>
+                            <CardDescription>
+                              Stamina Feedback
+                            </CardDescription>
+                          </Card>
+                          <Card>
+                            <CardTitle>Traffic</CardTitle>
+                            <CardDescription>
+                              Traffic Feedback
+                            </CardDescription>
+                          </Card>
+                          <Card>
+                            <CardTitle>Wealth</CardTitle>
+                            <CardDescription>
+                              Wealth Feedback
+                            </CardDescription>
+                          </Card>
+                        </div>
+                    </Card>
+
                     <Dialog open={isModalOpen} onClose={closeModal} className="fixed inset-0 z-10 overflow-y-auto ">
                         <div className="fixed inset-0 bg-black opacity-30" onClick={closeModal}></div>
                         <div className="flex items-center justify-center min-h-screen px-4 ">
@@ -231,7 +264,7 @@ const Score: React.FC = () => {
                     </Dialog>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

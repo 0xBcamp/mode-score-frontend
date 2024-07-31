@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getCreditScore } from '../services/covalentServices';
+import { Button } from '@/components/ui/button';
 
 interface PeerCreditScoreFormProps {
   setResult: React.Dispatch<React.SetStateAction<any>>;
@@ -34,18 +35,19 @@ const PeerCreditScoreForm: React.FC<PeerCreditScoreFormProps> = ({ setResult, se
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Address:</label>
+        <div className='p-2'>
+          <label>Address:   </label>
           <input
+            className="bg-background border rounded-lg"
             type="text"
             value={ethAddress}
             onChange={(e) => setEthAddress(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Chain ID:</label>
-          <select value={chainId} onChange={(e) => setChainId(e.target.value)}>
+        <div className='p-2'>
+          <label>Chain ID:   </label>
+          <select className="bg-background border rounded-lg" value={chainId} onChange={(e) => setChainId(e.target.value)}>
             <option value="34443">Mode Mainnet (34443)</option>
             <option value="1">Ethereum Mainnet (1)</option>
             <option value="919">Mode Testnet (919)</option>
@@ -53,7 +55,9 @@ const PeerCreditScoreForm: React.FC<PeerCreditScoreFormProps> = ({ setResult, se
             {/* Add other chain IDs as needed */}
           </select>
         </div>
-        <button type="submit">Get Mode Score</button>
+        <div className="flex justify-center mt-4">
+          <Button variant="outline" size="sm" type="submit">Get Mode Score</Button>
+        </div>
       </form>
     </div>
   );

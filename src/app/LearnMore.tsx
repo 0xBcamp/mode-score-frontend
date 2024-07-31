@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import logo from '../../public/logo.png'; // Update this with the actual path to your logo image
+import logo from '../../public/assets/logo.png'; // Update this with the actual path to your logo image
 import optimizeImage from '../../public/assets/digital-assets.webp'; // Example image for optimization section
 import integrationImage from '../../public/assets/investment-opportunities.webp'; // Example image for integration section
 import recommendationImage from '../../public/assets/investments.webp'; // Example image for recommendation section

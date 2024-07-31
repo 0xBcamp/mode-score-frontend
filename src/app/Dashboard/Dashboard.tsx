@@ -362,10 +362,8 @@ export function Dashboard() {
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 w-full">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <div className="flex items-center gap-2" >
-          <span className="text-lg font-bold text-right" style={{ paddingLeft: '35px' }}>DeFi Dashboard</span>
-
+            <span className="text-3xl font-bold text-right" style={{ paddingLeft: '35px' }}>DeFi Dashboard</span>
           </div>
-
           <div className="ml-auto flex items-center gap-2">
             <ConnectButton />
           </div>
