@@ -57,7 +57,7 @@ export default function Component({ data }: Score) {
     const [peerLoading, setPeerLoading] = useState<boolean>(false);
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [parsedResult, setParsedResult] = useState<any>(data);
+    const [parsedResult, setParsedResult] = useState<Score['data'] | null>(null);
 
     const cred = parsedResult?.explanation?.credibility;
     const stam = parsedResult?.explanation?.stamina;
@@ -120,6 +120,14 @@ export default function Component({ data }: Score) {
 
     if (loading) {
         return <Spinner />;
+    }
+
+    if (error) {
+        return <div className="text-red-500">{error}</div>;
+    }
+      
+    if (!parsedResult) {
+    return <div>No data available</div>;
     }
 
     const handleReset = () => {
