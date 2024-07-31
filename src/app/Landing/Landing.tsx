@@ -80,22 +80,34 @@ export function Landing() {
   return (
     <div className="flex flex-col min-h-[100dvh]">
 
-      <header className="px-4 lg:px-6 h-14 flex items-center">
+      <header className="px-4 lg:px-6 h-14 flex items-center bg-gray-800">
       <Link href="#" className="flex items-center justify-center" prefetch={false}>
           <Image src={logo} alt="Mode Score Logo" width={100} height={100} /> {/* Adjust width and height as needed */}
         </Link>
 
         <nav className="ml-auto flex gap-4 sm:gap-6 pr-4">
-          <Button onClick={() => scrollToSection(featuresRef)} className="text-sm font-medium hover:underline underline-offset-4">
+          <Button
+            onClick={() => scrollToSection(featuresRef)}
+            className="text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 underline-offset-4"
+          >
             Features
           </Button>
-          <Button onClick={() => scrollToSection(aboutRef)} className="text-sm font-medium hover:underline underline-offset-4">
+          <Button
+            onClick={() => scrollToSection(aboutRef)}
+            className="text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 underline-offset-4"
+          >
             About
           </Button>
-          <Button onClick={() => scrollToSection(teamRef)} className="text-sm font-medium hover:underline underline-offset-4">
+          <Button
+            onClick={() => scrollToSection(teamRef)}
+            className="text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 underline-offset-4"
+          >
             Team
           </Button>
-          <Button onClick={() => scrollToSection(contactRef)} className="text-sm font-medium hover:underline underline-offset-4">
+          <Button
+            onClick={() => scrollToSection(contactRef)}
+            className="text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 underline-offset-4"
+          >
             Contact
           </Button>
         </nav>
