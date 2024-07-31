@@ -28,8 +28,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } fro
 import { getTokenBalances, getTokenTransfers, getDeFiTokens } from '@/services/covalentServices';
 import Spinner from '@/components/ui/Spinner';
 import { Button } from '@/components/ui/button';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faWallet } from '@fortawesome/free-solid-svg-icons';
+import Pagination from '@/components/ui/pagination';
 
 interface Token {
   contract_ticker_symbol: string;
@@ -93,6 +92,11 @@ export function Dashboard() {
   const [initialRender, setInitialRender] = useState(true);
   const [earningsData, setEarningsData] = useState<MonthlyEarnings[]>([]);
   const [defiTokens, setDefiTokens] = useState<string[]>([]);
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [transactionsPerPage, setTransactionsPerPage] = useState(5);
+
   useEffect(() => {
     if (!isConnected) {
       router.push('landing');
@@ -267,6 +271,21 @@ export function Dashboard() {
   const allTransactions = Object.keys(groupedTransactions)
   .flatMap(date => groupedTransactions[date])
   .sort((a, b) => new Date(b.block_signed_at).getTime() - new Date(a.block_signed_at).getTime());
+
+  // Calculate paginated transactions
+  const indexOfLastTransaction = currentPage * transactionsPerPage;
+  const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
+  const currentTransactions = allTransactions.slice(indexOfFirstTransaction, indexOfLastTransaction);
+  const totalPages = Math.ceil(allTransactions.length / transactionsPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleTransactionsPerPageChange = (items: number) => {
+    setTransactionsPerPage(items);
+    setCurrentPage(1); // Reset to first page
+  };
 
   if (loading) {
     return (
@@ -455,6 +474,13 @@ export function Dashboard() {
               <CardDescription>Your latest DeFi transactions.</CardDescription>
             </CardHeader>
             <CardContent>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                itemsPerPage={transactionsPerPage}
+                onItemsPerPageChange={handleTransactionsPerPageChange}
+              />
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -465,7 +491,7 @@ export function Dashboard() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {allTransactions.slice(0, 10).map((transaction) => {
+                  {currentTransactions.map((transaction) => {
                     return (
                       <TableRow key={transaction.tx_hash}>
                         <TableCell>{new Date(transaction.block_signed_at).toLocaleString()}</TableCell>
@@ -493,3 +519,5 @@ export function Dashboard() {
     </div>
   );
 }
+
+export default Dashboard;
