@@ -29,6 +29,7 @@ import { getTokenBalances, getTokenTransfers, getDeFiTokens } from '@/services/c
 import Spinner from '@/components/ui/Spinner';
 import { Button } from '@/components/ui/button';
 import Pagination from '@/components/ui/pagination';
+import Settings from '@/Modals/Settings';
 
 interface Token {
   contract_ticker_symbol: string;
@@ -92,6 +93,9 @@ export function Dashboard() {
   const [initialRender, setInitialRender] = useState(true);
   const [earningsData, setEarningsData] = useState<MonthlyEarnings[]>([]);
   const [defiTokens, setDefiTokens] = useState<string[]>([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen(!isModalOpen); 
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -364,19 +368,23 @@ export function Dashboard() {
 
             <Tooltip>
               <TooltipTrigger asChild>
+              <div onClick={toggleModal}>
                 <Link
-                  href="#Settings"
+                  href="#"
                   className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
                   <SettingsIcon className="h-5 w-5 transition-all group-hover:scale-110" />
                   <span className="sr-only">Settings</span>
                 </Link>
+                </div>
               </TooltipTrigger>
               <TooltipContent side="right">Settings</TooltipContent>
+              <Settings isOpen={isModalOpen} onClose={toggleModal} /> 
             </Tooltip>
           </TooltipProvider>
         </nav>
+        
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 w-full">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">

@@ -18,6 +18,8 @@ import { useAccount, useChainId } from 'wagmi';
 import Spinner from "@/components/ui/Spinner";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+import Settings from '@/Modals/Settings';
+
 
 const Score: React.FC = () => {
     const { isConnected } = useAccount();
@@ -27,6 +29,11 @@ const Score: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedNetwork, setSelectedNetwork] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+
+
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+    const openSettingsModal = () => setIsSettingsModalOpen(true);
+    const closeSettingsModal = () => setIsSettingsModalOpen(false);
 
     useEffect(() => {
         if (!isConnected) {
@@ -157,16 +164,23 @@ const Score: React.FC = () => {
 
             <Tooltip>
               <TooltipTrigger asChild>
+              <div onClick={openSettingsModal}>
                 <Link
-                  href="#Settings"
-                  className="group flex h-9 w-9 items-center justify-center rounded-lg text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  href="#"
+                  className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
                   <SettingsIcon className="h-5 w-5 transition-all group-hover:scale-110" />
-                  <span className="sr-only ">Settings</span>
+                  <span className="sr-only">Settings</span>
                 </Link>
+                </div>
               </TooltipTrigger>
               <TooltipContent side="right">Settings</TooltipContent>
+              <Settings
+                isOpen={isSettingsModalOpen}
+                onClose={closeSettingsModal}
+                
+            />
             </Tooltip>
           </TooltipProvider>
         </nav>

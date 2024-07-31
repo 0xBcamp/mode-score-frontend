@@ -11,6 +11,7 @@ import { HomeIcon, SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 import Spinner from "@/components/ui/Spinner";
 import PeerCreditScoreForm from '../../components/PeerCreditForm';
+import Settings from '@/Modals/Settings';
 
 interface Score {
     data?: {
@@ -64,6 +65,9 @@ export default function Component({ data }: Score) {
     const weal = parsedResult?.explanation?.wealth;
     const traf = parsedResult?.explanation?.traffic;
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const toggleModal = () => setIsModalOpen(!isModalOpen); 
+    
     useEffect(() => {
         if (!isConnected) {
             router.push('landing');
@@ -158,16 +162,19 @@ export default function Component({ data }: Score) {
                         </Tooltip>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Link
-                                    href="#Settings"
-                                    className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                                    prefetch={false}
+                                <div onClick={toggleModal}>
+                                 <Link
+                                  href="#"
+                                 className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                                 prefetch={false}
                                 >
-                                    <SettingsIcon className="h-5 w-5 transition-all group-hover:scale-110" />
-                                    <span className="sr-only">Settings</span>
-                                </Link>
+                                <SettingsIcon className="h-5 w-5 transition-all group-hover:scale-110" />
+                                 <span className="sr-only">Settings</span>
+                                 </Link>
+                                </div>
                             </TooltipTrigger>
                             <TooltipContent side="right">Settings</TooltipContent>
+                            <Settings isOpen={isModalOpen} onClose={toggleModal} /> 
                         </Tooltip>
                     </TooltipProvider>
                 </nav>
