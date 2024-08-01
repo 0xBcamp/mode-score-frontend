@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-white text-black dark:bg-gray-800 dark:text-white;
+}
+
 .fancy-text {
   font-family: 'Cinzel', serif; 
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);

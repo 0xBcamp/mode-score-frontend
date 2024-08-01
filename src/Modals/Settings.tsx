@@ -1,12 +1,11 @@
 // components/Settings.tsx
-
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { useTheme } from '@/context/ThemeContext';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 interface SettingsProps {
   isOpen: boolean;
@@ -14,6 +13,8 @@ interface SettingsProps {
 }
 
 export default function Settings({ isOpen, onClose }: SettingsProps) {
+  const { theme, toggleTheme } = useTheme();
+
   if (!isOpen) return null;
 
   return (
@@ -29,16 +30,10 @@ export default function Settings({ isOpen, onClose }: SettingsProps) {
               <CardTitle>Theme</CardTitle>
             </CardHeader>
             <CardContent>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select theme" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex items-center justify-between">
+                <span>Dark Mode</span>
+                <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme} />
+              </div>
             </CardContent>
           </Card>
           <Card>

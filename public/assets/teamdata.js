@@ -30,7 +30,7 @@ const teamData = [
       image: juslen // Update the path to the image
     },
     {
-      name: 'Skyer Hollingsworth',
+      name: 'Skyler Hollingsworth',
       role: 'Frontend Developer',
       skills: 'JS, React',
       image: skyer, // Update the path to the image
