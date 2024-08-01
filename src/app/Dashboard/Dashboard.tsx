@@ -90,9 +90,9 @@ export function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
-  const [initialRender, setInitialRender] = useState(true);
-  const [earningsData, setEarningsData] = useState<MonthlyEarnings[]>([]);
-  const [defiTokens, setDefiTokens] = useState<string[]>([]);
+  // const [initialRender, setInitialRender] = useState(true);
+  // const [earningsData, setEarningsData] = useState<MonthlyEarnings[]>([]);
+  // const [defiTokens, setDefiTokens] = useState<string[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen); 
@@ -170,10 +170,11 @@ export function Dashboard() {
 
   const handleCompareWalletClick = () => {
     if (result) {
-      const query = new URLSearchParams({ result: JSON.stringify(result) }).toString();
+      const query = new URLSearchParams({ result: encodeURIComponent(JSON.stringify(result)) }).toString();
       router.push(`/WalletComparisonPage?${query}`);
     }
   };
+  
 
   const groupedTransactions = groupTransactionsByDate(transactions);
 
@@ -190,87 +191,99 @@ export function Dashboard() {
 
   const etherscanUrl = (hash: string) => `https://etherscan.io/tx/${hash}`;
 
+
+  /**
+   * Function to get the top 3 tokens by value
+   */
+  const getTopThreeTokens = (assets: Asset[]) => {
+    return assets
+      .filter(asset => asset.quote) // Ensure the asset has a value
+      .sort((a, b) => (b.quote || 0) - (a.quote || 0))
+      .slice(0, 3);
+  };
+
+  const topThreeTokens = getTopThreeTokens(assets);
   
     /**
      * This Section takes care of calculating data used to display the chart
      *
      * 
      */
-    useEffect(() => {
-      const fetchDeFiTokens = async () => {
-        try {
-          const tokens = await getDeFiTokens();
-          setDefiTokens(tokens);
-        } catch (error) {
-          console.error('Failed to fetch DeFi tokens:', error);
-        }
-      };
+  //   useEffect(() => {
+  //     const fetchDeFiTokens = async () => {
+  //       try {
+  //         const tokens = await getDeFiTokens();
+  //         setDefiTokens(tokens);
+  //       } catch (error) {
+  //         console.error('Failed to fetch DeFi tokens:', error);
+  //       }
+  //     };
   
-      fetchDeFiTokens();
-  }, []);
+  //     fetchDeFiTokens();
+  // }, []);
 
-  useEffect(() => {
-      const fetchDeFiEarnings = async () => {
-          if (address && chainId && defiTokens.length > 0) {
-          try {
-              // Step 1: Get token balances
-              const balancesResponse = await getTokenBalances({ eth_address: address, chain_id: chainId });
-              const userDefiTokens: DeFiToken[] = identifyDeFiTokens(balancesResponse.data.items, defiTokens);
+  // useEffect(() => {
+  //     const fetchDeFiEarnings = async () => {
+  //         if (address && chainId && defiTokens.length > 0) {
+  //         try {
+  //             // Step 1: Get token balances
+  //             const balancesResponse = await getTokenBalances({ eth_address: address, chain_id: chainId });
+  //             const userDefiTokens: DeFiToken[] = identifyDeFiTokens(balancesResponse.data.items, defiTokens);
 
-              // Step 2: Get transfers for each DeFi token
-              const allTransfers = await Promise.all(
-              userDefiTokens.map((token: DeFiToken) => 
-                  getTokenTransfers({ 
-                  eth_address: address, 
-                  chain_id: chainId, 
-                  contract_address: token.contract_address 
-                  })
-              )
-              );
+  //             // Step 2: Get transfers for each DeFi token
+  //             const allTransfers = await Promise.all(
+  //             userDefiTokens.map((token: DeFiToken) => 
+  //                 getTokenTransfers({ 
+  //                 eth_address: address, 
+  //                 chain_id: chainId, 
+  //                 contract_address: token.contract_address 
+  //                 })
+  //             )
+  //             );
 
-              // Step 3: Process transfers to estimate earnings
-              const processedData: MonthlyEarnings[] = processDefiTransfers(allTransfers, userDefiTokens);
-              setEarningsData(processedData);
-          } catch (error) {
-              console.error('Failed to fetch DeFi earnings data:', error);
-          }
-          }
-      };
+  //             // Step 3: Process transfers to estimate earnings
+  //             const processedData: MonthlyEarnings[] = processDefiTransfers(allTransfers, userDefiTokens);
+  //             setEarningsData(processedData);
+  //         } catch (error) {
+  //             console.error('Failed to fetch DeFi earnings data:', error);
+  //         }
+  //         }
+  //     };
 
-      fetchDeFiEarnings();
-  }, [address, chainId, defiTokens]);
+  //     fetchDeFiEarnings();
+  // }, [address, chainId, defiTokens]);
 
-  const identifyDeFiTokens = (tokens: Token[], defiTokenList: string[]): DeFiToken[] => {
-      return tokens.filter(token => defiTokenList.includes(token.contract_ticker_symbol))
-                   .map(token => ({ contract_address: token.contract_address }));
-  };
+  // const identifyDeFiTokens = (tokens: Token[], defiTokenList: string[]): DeFiToken[] => {
+  //     return tokens.filter(token => defiTokenList.includes(token.contract_ticker_symbol))
+  //                  .map(token => ({ contract_address: token.contract_address }));
+  // };
 
-  const processDefiTransfers = (allTransfers: TransfersResponse[], defiTokens: DeFiToken[]): MonthlyEarnings[] => {
-      const monthlyEarnings: { [key: string]: number } = {};
+  // const processDefiTransfers = (allTransfers: TransfersResponse[], defiTokens: DeFiToken[]): MonthlyEarnings[] => {
+  //     const monthlyEarnings: { [key: string]: number } = {};
     
-      allTransfers.forEach((transfersResponse, index) => {
-        const token = defiTokens[index];
-        transfersResponse.data.items.forEach(transfer => {
-          // Simplification: consider all incoming transfers as earnings
-          if (transfer.transfers[0].transfer_type === 'IN') {
-            const date = new Date(transfer.block_signed_at);
-            const monthKey = `${date.getFullYear()}-${date.getMonth() + 1}`;
-            if (!monthlyEarnings[monthKey]) {
-              monthlyEarnings[monthKey] = 0;
-            }
-            monthlyEarnings[monthKey] += Number(transfer.transfers[0].delta_quote || 0);
-          }
-        });
-      });
+  //     allTransfers.forEach((transfersResponse, index) => {
+  //       const token = defiTokens[index];
+  //       transfersResponse.data.items.forEach(transfer => {
+  //         // Simplification: consider all incoming transfers as earnings
+  //         if (transfer.transfers[0].transfer_type === 'IN') {
+  //           const date = new Date(transfer.block_signed_at);
+  //           const monthKey = `${date.getFullYear()}-${date.getMonth() + 1}`;
+  //           if (!monthlyEarnings[monthKey]) {
+  //             monthlyEarnings[monthKey] = 0;
+  //           }
+  //           monthlyEarnings[monthKey] += Number(transfer.transfers[0].delta_quote || 0);
+  //         }
+  //       });
+  //     });
     
-      return Object.entries(monthlyEarnings)
-        .map(([month, earnings]) => ({
-          month: month.split('-')[1], // Just use month number for simplicity
-          earnings: parseFloat(earnings.toFixed(2))
-        }))
-        .sort((a, b) => parseInt(a.month) - parseInt(b.month))
-        .slice(-6); // Last 6 months
-  };
+  //     return Object.entries(monthlyEarnings)
+  //       .map(([month, earnings]) => ({
+  //         month: month.split('-')[1], // Just use month number for simplicity
+  //         earnings: parseFloat(earnings.toFixed(2))
+  //       }))
+  //       .sort((a, b) => parseInt(a.month) - parseInt(b.month))
+  //       .slice(-6); // Last 6 months
+  // };
 
   const allTransactions = Object.keys(groupedTransactions)
   .flatMap(date => groupedTransactions[date])
@@ -388,7 +401,7 @@ export function Dashboard() {
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 w-full">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-          <div className="flex items-center gap-2" >
+          <div className="flex items-center gap=2" >
             <span className="text-3xl font-bold text-right" style={{ paddingLeft: '35px' }}>DeFi Dashboard</span>
           </div>
           <div className="ml-auto flex items-center gap-2">
@@ -420,7 +433,7 @@ export function Dashboard() {
                     <CreditScoreResult result={result} error={error} loading={loading} />
                   </CardContent>
                 </div>
-                <div className="flex flex-grow flex-col items-center justify-center">
+                <div className="flex flex-grow flex-col items-center justify-center p-2">
                   <Button variant="outline" size="sm" onClick={handleCompareWalletClick}>
                     Compare Wallet
                   </Button>
@@ -430,19 +443,19 @@ export function Dashboard() {
             </div>
             <Card className="h-full flex flex-col">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">DeFi Earnings (Last 6 Months)</CardTitle>
+                <CardTitle className="text-sm font-medium">Top 3 Tokens</CardTitle>
                 <ActivityIcon className="w-4 h-4 text-muted-foreground" />
               </CardHeader>
               <CardContent className="flex-grow">
-                <ResponsiveContainer width="100%" height={200}>
-                  <LineChart data={earningsData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    {/*<Tooltip />*/}
-                    <Line type="monotone" dataKey="earnings" stroke="#8884d8" />
-                  </LineChart>
-                </ResponsiveContainer>
+                <ul>
+                  {topThreeTokens.map((token, index) => (
+                    <li key={index} className="flex items-center gap-4 mb-2">
+                      <img src={token.logo_url} alt={token.contract_ticker_symbol} width="20" height="20" />
+                      <span className="font-medium">{token.contract_ticker_symbol}</span>
+                      <span className="ml-auto">${token.quote ? token.quote.toFixed(2) : 'N/A'}</span>
+                    </li>
+                  ))}
+                </ul>
               </CardContent>
             </Card>
           </div>

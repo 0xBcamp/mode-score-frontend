@@ -36,7 +36,7 @@ export default function Settings({ isOpen, onClose }: SettingsProps) {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          {/* <Card>
             <CardHeader>
               <CardTitle>Notifications</CardTitle>
             </CardHeader>
@@ -63,7 +63,7 @@ export default function Settings({ isOpen, onClose }: SettingsProps) {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Close</Button>
