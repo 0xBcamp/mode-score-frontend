@@ -33,7 +33,7 @@ const WalletComp = () => {
   }, [isConnected, router]);
 
   useEffect(() => {
-    const result = searchParams.get('result');
+    const result = searchParams?.get('result');
     if (result) {
       try {
         const resultData = JSON.parse(decodeURIComponent(result));
