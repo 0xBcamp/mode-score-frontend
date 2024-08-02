@@ -146,10 +146,10 @@ const WalletComp = () => {
             <ConnectButton />
           </div>
         </header>
-        <div className="container mx-auto py-8 px-4 md:px-6">
-          <div className="flex justify-center items-start gap-6">
+        <div className="container mx-auto py-8 px-4 md:px-6 flex flex-col h-full">
+          <div className="flex justify-center items-start gap-6 flex-grow">
             <div className="flex-1">
-              <Card id="UserScore" className="w-full">
+              <Card id="UserScore" className="w-full h-full flex flex-col">
                 <div className="bg-background w-full rounded-lg border-4 p-6 flex flex-col items-center justify-center gap-4 h-full">
                   <Card className="w-full">
                     <CardHeader className="w-full bg-gradient-to-tr from-yellow-400 via-yellow-400 to-white text-gray-800 rounded-lg text-4xl p-6 flex flex-col items-center justify-center gap-4 font-bold">
@@ -275,9 +275,9 @@ const WalletComp = () => {
                 VS
               </h1>
             </div>
-            <div className="flex-1">
-              <Card id="PeerScore" className="h-full">
-                <div className="bg-background rounded-lg border-4 p-6 flex flex-col items-center justify-center gap-4 h-full">
+            <div className="flex-1 flex flex-col">
+              <Card id="PeerScore" className="h-full flex flex-col">
+                <div className="bg-background rounded-lg border-4 p-6 flex flex-col items-center justify-center gap-4 h-full flex-grow">
                   <Card className="w-full">
                     <CardHeader className="bg-gradient-to-tr from-yellow-400 via-yellow-400 to-white text-gray-800 w-full rounded-lg text-4xl p-6 flex w-full flex-col items-center justify-center gap-4 font-bold">
                       PEER MODE SCORE
@@ -398,10 +398,9 @@ const WalletComp = () => {
                           </CardHeader>
                         </Card>
                       </div>
-                      <Button variant="outline" size="sm" className="w-full" onClick={handleReset}>Reset</Button>
                     </>
                   ) : (
-                    <CardContent>
+                    <CardContent className="flex-grow flex flex-col justify-between">
                       <PeerCreditScoreForm
                         setResult={setPeerResult}
                         setError={setError}
@@ -414,6 +413,11 @@ const WalletComp = () => {
               </Card>
             </div>
           </div>
+        {peerResult && (
+          <div className="mt-auto flex items-center justify-center p-4">
+            <Button className="text-4xl p-8" variant="outline" size="sm" onClick={handleReset}>Reset</Button>
+          </div>
+        )}
         </div>
       </div>
     </div>

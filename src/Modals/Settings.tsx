@@ -1,11 +1,10 @@
 // components/Settings.tsx
+import * as React from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 
 interface SettingsProps {
   isOpen: boolean;
@@ -36,34 +35,6 @@ export default function Settings({ isOpen, onClose }: SettingsProps) {
               </div>
             </CardContent>
           </Card>
-          {/* <Card>
-            <CardHeader>
-              <CardTitle>Notifications</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <span>Receive notifications</span>
-                <Switch id="notifications" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Account</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-2">
-                <div>
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" defaultValue="John Doe" />
-                </div>
-                <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" defaultValue="john@example.com" />
-                </div>
-              </div>
-            </CardContent>
-          </Card> */}
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>Close</Button>

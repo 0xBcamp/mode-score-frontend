@@ -10,7 +10,7 @@ const LearnMore = () => {
   const router = useRouter();
 
   const handleBack = () => {
-    router.push('/');
+    router.push('/landing');
   };
 
   return (

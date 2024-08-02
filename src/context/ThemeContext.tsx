@@ -1,6 +1,6 @@
+// context/ThemeContext.tsx
 "use client";
 
-// context/ThemeContext.tsx
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
 type Theme = "light" | "dark";
@@ -31,6 +31,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
+  console.log('ThemeProvider rendered with theme:', theme);
+
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
@@ -41,7 +43,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
+    console.error("useTheme must be used within a ThemeProvider");
     throw new Error("useTheme must be used within a ThemeProvider");
   }
+  console.log('useTheme context:', context);
   return context;
 };
