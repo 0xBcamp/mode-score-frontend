@@ -2,13 +2,13 @@
 
 import React from 'react';
 import Score from './Score'; // Adjust import if needed
-import { ThemeProvider } from '@/context/ThemeContext';
+// import { ThemeProvider } from '@/context/ThemeContext';
 
 const ScorePage = () => {
   return (
-    <ThemeProvider>
+    // <ThemeProvider>
       <Score />
-    </ThemeProvider>
+    // </ThemeProvider>
 );
 };
 

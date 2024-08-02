@@ -7,11 +7,11 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import ConnectButton from '@/components/ui/ConnectButton';
-import { HomeIcon, SettingsIcon } from 'lucide-react';
+import { HomeIcon } from 'lucide-react';
 import Link from 'next/link';
 import Spinner from "@/components/ui/Spinner";
 import PeerCreditScoreForm from '@/components/PeerCreditForm';
-import Settings from '@/Modals/Settings';
+// import Settings from '@/Modals/Settings';
 
 const WalletComp = () => {
   const { isConnected } = useAccount();
@@ -119,7 +119,7 @@ const WalletComp = () => {
               <TooltipContent side="right">Home</TooltipContent>
             </Tooltip>
             <Tooltip>
-              <TooltipTrigger asChild>
+              {/* <TooltipTrigger asChild>
                 <div onClick={toggleModal}>
                   <Link
                     href="#"
@@ -131,8 +131,8 @@ const WalletComp = () => {
                   </Link>
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="right">Settings</TooltipContent>
-              <Settings isOpen={isModalOpen} onClose={toggleModal} /> 
+              <TooltipContent side="right">Settings</TooltipContent> */}
+              {/* <Settings isOpen={isModalOpen} onClose={toggleModal} />  */}
             </Tooltip>
           </TooltipProvider>
         </nav>

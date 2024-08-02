@@ -7,7 +7,7 @@ import ConnectButton from "../../components/ui/ConnectButton";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Dialog } from "@headlessui/react";
-import { ActivityIcon, HomeIcon, PieChartIcon, SettingsIcon, WalletIcon } from "lucide-react";
+import { ActivityIcon, HomeIcon, PieChartIcon, WalletIcon } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import CredModal from "@/Modals/CredModal";
 import TrafficModal from "@/Modals/TrafficModal";
@@ -18,7 +18,7 @@ import { useAccount } from 'wagmi';
 import Spinner from "@/components/ui/Spinner";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-import Settings from '@/Modals/Settings';
+// import Settings from '@/Modals/Settings';
 
 const Score: React.FC = () => {
     const { isConnected } = useAccount();
@@ -29,9 +29,9 @@ const Score: React.FC = () => {
     const [selectedNetwork, setSelectedNetwork] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-    const openSettingsModal = () => setIsSettingsModalOpen(true);
-    const closeSettingsModal = () => setIsSettingsModalOpen(false);
+    // const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+    // const openSettingsModal = () => setIsSettingsModalOpen(true);
+    // const closeSettingsModal = () => setIsSettingsModalOpen(false);
 
     useEffect(() => {
         if (!isConnected) {
@@ -142,7 +142,7 @@ const Score: React.FC = () => {
                             <TooltipContent side="right">Assets</TooltipContent>
                         </Tooltip>
 
-                        <Tooltip>
+                        {/* <Tooltip>
                             <TooltipTrigger asChild>
                                 <div onClick={openSettingsModal}>
                                     <Link href="#" className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8" prefetch={false}>
@@ -153,7 +153,7 @@ const Score: React.FC = () => {
                             </TooltipTrigger>
                             <TooltipContent side="right">Settings</TooltipContent>
                             <Settings isOpen={isSettingsModalOpen} onClose={closeSettingsModal} />
-                        </Tooltip>
+                        </Tooltip> */}
                     </TooltipProvider>
                 </nav>
             </aside>

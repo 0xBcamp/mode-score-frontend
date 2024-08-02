@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { Landing } from './Landing'; // Adjust import if needed
-import { ThemeProvider } from '@/context/ThemeContext';
+// import { ThemeProvider } from '@/context/ThemeContext';
 
 const LandingPage = () => {
   return (
-  <ThemeProvider>
+  // <ThemeProvider>
     <Landing />
-  </ThemeProvider>
+  // </ThemeProvider>
 
 
 );

@@ -22,14 +22,14 @@ import {
 } from '@/components/ui/table';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import ConnectButton from '@/components/ui/ConnectButton';
-import { ActivityIcon, DollarSignIcon, HomeIcon, PieChartIcon, SettingsIcon, WalletIcon } from 'lucide-react';
+import { ActivityIcon, DollarSignIcon, HomeIcon, PieChartIcon, WalletIcon } from 'lucide-react';
 import Link from 'next/link';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { getTokenBalances, getTokenTransfers, getDeFiTokens } from '@/services/covalentServices';
 import Spinner from '@/components/ui/Spinner';
 import { Button } from '@/components/ui/button';
 import Pagination from '@/components/ui/pagination';
-import Settings from '@/Modals/Settings';
+// import Settings from '@/Modals/Settings';
 
 interface Token {
   contract_ticker_symbol: string;
@@ -94,8 +94,8 @@ export function Dashboard() {
   // const [earningsData, setEarningsData] = useState<MonthlyEarnings[]>([]);
   // const [defiTokens, setDefiTokens] = useState<string[]>([]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const toggleModal = () => setIsModalOpen(!isModalOpen); 
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const toggleModal = () => setIsModalOpen(!isModalOpen); 
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -379,7 +379,7 @@ export function Dashboard() {
               <TooltipContent side="right">Assets</TooltipContent>
             </Tooltip>
 
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipTrigger asChild>
               <div onClick={toggleModal}>
                 <Link
@@ -387,14 +387,14 @@ export function Dashboard() {
                   className="group flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <SettingsIcon className="h-5 w-5 transition-all group-hover:scale-110" />
-                  <span className="sr-only">Settings</span>
-                </Link>
-                </div>
-              </TooltipTrigger>
+                  {/* <SettingsIcon className="h-5 w-5 transition-all group-hover:scale-110" /> */}
+                  {/* <span className="sr-only">Settings</span> */}
+                {/* </Link> */}
+                {/* </div> */}
+              {/* </TooltipTrigger>
               <TooltipContent side="right">Settings</TooltipContent>
               <Settings isOpen={isModalOpen} onClose={toggleModal} /> 
-            </Tooltip>
+            </Tooltip>  */}
           </TooltipProvider>
         </nav>
         
