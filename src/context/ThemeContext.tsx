@@ -1,51 +1,94 @@
-// // context/ThemeContext.tsx
-// "use client";
+"use client";
 
-// import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode, useReducer } from "react";
 
-// type Theme = "light" | "dark";
 
-// interface ThemeContextProps {
-//   theme: Theme;
-//   toggleTheme: () => void;
-// }
+const initialTheme: ThemeState = {
+    theme: "beach",
+    isSettingsOpen: false,
+    showDisclaimer: true,
+    isMobile: false,
+    hamburgerMenuPosition: "right",
+};
 
-// const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
+interface ThemeState {
+    theme: string;
+    isSettingsOpen: boolean;
+    showDisclaimer: boolean;
+    isMobile: boolean;
+    hamburgerMenuPosition: string;
+}
 
-// export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-//   const [theme, setTheme] = useState<Theme>(() => {
-//     if (typeof window !== 'undefined') {
-//       return (localStorage.getItem('theme') as Theme) || 'dark';
-//     }
-//     return 'dark';
-//   });
+interface ThemeAction {
+    type: 'CHANGE_THEME' | 'TOGGLE_SETTINGS' | 'SHOW_DISCLAIMER' | 'TOGGLE_MOBILE' | 'SET_HAMBURGER_POSITION';
+    payload?: any;
+}
 
-//   useEffect(() => {
-//     const root = window.document.documentElement;
-//     root.classList.remove(theme === "light" ? "dark" : "light");
-//     root.classList.add(theme);
-//     localStorage.setItem('theme', theme);
-//   }, [theme]);
+const ThemeContext = createContext<ThemeState | null>(null);
+const ThemeDispatchContext = createContext<React.Dispatch<ThemeAction> | null>(null);
 
-//   const toggleTheme = () => {
-//     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-//   };
 
-//   console.log('ThemeProvider rendered with theme:', theme);
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
-//   return (
-//     // <ThemeContext.Provider value={{ theme, toggleTheme }}>
-//       {children}
-//     </ThemeContext.Provider>
-//   );
-// };
+    const [state, dispatch] = useReducer(themeReducer, initialTheme);
 
-// export const useTheme = () => {
-//   const context = useContext(ThemeContext);
-//   if (!context) {
-//     console.error("useTheme must be used within a ThemeProvider");
-//     throw new Error("useTheme must be used within a ThemeProvider");
-//   }
-//   console.log('useTheme context:', context);
-//   return context;
-// };
+
+    return (
+        <ThemeContext.Provider value={ state }>
+            <ThemeDispatchContext.Provider value = {dispatch}>
+            <div data-theme={state.theme} className="App">
+            {children}
+            </div>
+            </ThemeDispatchContext.Provider>
+        </ThemeContext.Provider>
+    );
+};
+
+
+//custom hook to get context from wherever in the tree
+export function useTheme() {
+    return useContext(ThemeContext);
+}
+//this is a nice custom hook to change context from wherever in the tree.
+export function useThemeDispatch() {
+    return useContext(ThemeDispatchContext);
+}
+
+
+function themeReducer(state: ThemeState, action: ThemeAction): ThemeState {
+    switch (action.type) {
+      case 'CHANGE_THEME':
+        return {
+          ...state,
+          theme: action.payload,
+        };
+      case 'TOGGLE_SETTINGS':
+        return {
+          ...state,
+          isSettingsOpen: !state.isSettingsOpen,
+        };
+      case 'SHOW_DISCLAIMER':
+        return {
+          ...state,
+          showDisclaimer: !state.showDisclaimer,
+        };
+      case 'TOGGLE_MOBILE':
+        return {
+          ...state,
+          isMobile: action.payload,
+        };
+      case 'SET_HAMBURGER_POSITION':
+        if (typeof action.payload === 'string') {
+          return {
+            ...state,
+            hamburgerMenuPosition: action.payload,
+          };
+        }
+        return state;
+  
+      default:
+        throw Error('Unknown action: ' + action.type);
+    }
+  }
+  
+  
